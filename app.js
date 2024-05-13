@@ -53,7 +53,7 @@ app.post("/login",(req,res)=>{
   const {email, password}=req.body;
  // const username=db.query('SELECT username FROM users WHERE email = ? ',[email]);
   var isloggedin;
-  let query1=db.query('SELECT email,password,username FROM users WHERE email = ? ',[email],(err,result)=>{
+  let query1=db.query('SELECT * FROM users WHERE email = ? ',[email],(err,result)=>{
     if (err) {
       console.error('Error executing SQL query:', err);
       return res.status(500).send('Internal server error');
@@ -64,7 +64,7 @@ app.post("/login",(req,res)=>{
     }
       if(result[0].email===email && result[0].password===password)
         {
-          const token=jwt.sign({_email:email,_password:password,},"secret");
+          const token=jwt.sign({_email:email,_password:password,_username:result[0].username},"secret");
           res.cookie('jwt',token,{
             httpOnly:true,
           }).status(200).send(token);  
@@ -120,11 +120,27 @@ app.get("/user",async(req,res)=>{
       }
   
       const userEmail = decoded._email; 
-      const userName=decoded._username
+      const userName=decoded._username;
       res.status(200).json({ email: userEmail ,username:userName});
     });
   });
-
+app.put('add_counter',async(req,res)=>{
+const {country,email}=req.body;
+try{
+db.query('INSERT INTO users (country) VALUES ?',country,(err,result)=>{
+if(err){
+  console.log(err);
+    res.status(500).json({ error: 'Failed to add country' });
+      return;
+}else{
+  return res.status(200).json({ message: 'Profile updated successfully'});
+}
+})
+} catch (error) {
+console.error('Error updating profile:', error);
+return res.status(500).json({ message: 'Internal server error' });
+}
+})
      
 app.listen("5000",()=>{
 console.log("server is connected");

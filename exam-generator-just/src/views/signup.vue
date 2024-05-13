@@ -25,11 +25,11 @@
 <div class="input-group password-group">
 <input type="password" id="password" autocomplete="off" placeholder="Password" v-model="password"required  @input="validatePassword" @focus="condition"/>
 <small class="pass-char" id="pass-char" v-show="show_password_rules">Password should contain:
-            <li >atleast 8 chacters <i class="fa-solid fa-check" id="8-char" style="color: #61b143;"></i></li>
-            <li >one lowercase letter<i class="fa-solid fa-check" id="lowercase" style="color: #61b143;"></i></li>
-            <li >one uppercase letter<i class="fa-solid fa-check" id="uppercase" style="color: #61b143;"></i></li>
-            <li >at least one number<i class="fa-solid fa-check"id="one-num" style="color: #61b143;"></i></li>
-            <li >one special character<i class="fa-solid fa-check"id="special" style="color: #61b143;"></i></li></small>
+            <li >atleast 8 chacters <i class="fa-solid fa-check" id="8-char" v-show="rule_1" style="color: #61b143;"></i></li>
+            <li >one lowercase letter<i class="fa-solid fa-check" id="lowercase" v-show="rule_2" style="color: #61b143;"></i></li>
+            <li >one uppercase letter<i class="fa-solid fa-check" id="uppercase" v-show="rule_3" style="color: #61b143;"></i></li>
+            <li >at least one number<i class="fa-solid fa-check"id="one-num" v-show="rule_4" style="color: #61b143;"></i></li>
+            <li >one special character<i class="fa-solid fa-check"id="special" v-show="rule_5" style="color: #61b143;"></i></li></small>
 </div>
 <button class="getstarted"  type="submit" id="signup">Get Started</button>
 <p class="have_an_account">Already have an account? <router-link :to="{name:'login'}"><button class="loginlink">Login</button></router-link></p>
@@ -54,7 +54,12 @@ has_special: false,
 show_password_rules:false,
 username_rules:false,
 email_rules:false,
-phone_rules:false
+phone_rules:false,
+rule_1:false,
+rule_2:false,
+rule_3:false,
+rule_4:false,
+rule_5:false,
   };
 },
 methods:{
@@ -73,10 +78,9 @@ async signup(){
         
       } catch (error) {
     
-        document.getElementById("email-error").setAttribute("style","visibility: inherit");
+        this.email_rules=true;
         document.getElementById("email").setAttribute("style","border-color: rgb(232, 93, 93)");
         document.getElementById("email-error").innerHTML="this email is alraedy used!";
-        this.email_rules=true;
       }
 },
 validateEmail() {
@@ -85,14 +89,12 @@ validateEmail() {
       this.email_rules=false
     } else {
         document.getElementById("email").setAttribute("style","border-color: rgb(232, 93, 93)");
-        document.getElementById("email-error").setAttribute("style","visibility: inherit");
         this.email_rules=true;
     }
     },
     validateUsername(){
       if(this.username.length<6){
         document.getElementById("username").setAttribute("style","border-color: rgb(232, 93, 93)");
-        document.getElementById("username-error").setAttribute("style","visibility: inherit");
           this.username_rules=true;
       }
       else{
@@ -108,12 +110,10 @@ validateEmail() {
       }
       else if(this.phonenumber.length!=10){
         document.getElementById("phone").setAttribute("style","border-color: rgb(232, 93, 93)");
-        document.getElementById("phone-error").setAttribute("style","visibility: inherit");
         this.phone_rules=true;
       }
       else if (this.phonenumber.substring(0,1)!='0' && this.phonenumber.length==10){
         document.getElementById("phone").setAttribute("style","border-color: rgb(232, 93, 93)");
-        document.getElementById("phone-error").setAttribute("style","visibility: inherit");
         this.phone_rules=true;
       }
     },
@@ -131,20 +131,19 @@ validateEmail() {
             this.has_uppercase = /[A-Z]/.test(this.password);
             this.has_special   = /[!@#\$%\^\&*\)\(+=._-]/.test(this.password);
             if(this.has_minimum_lenth){
-            document.getElementById("8-char").setAttribute("style","visibility: inherit");
-
+            this.rule_1=true;
             }
             if(this.has_lowercase){
-            document.getElementById("lowercase").setAttribute("style","visibility: inherit");
+            this.rule_2=true;
             }
             if(this.has_uppercase){
-            document.getElementById("uppercase").setAttribute("style","visibility: inherit");
+            this.rule_3=true;
             }
             if(this.has_number){
-            document.getElementById("one-num").setAttribute("style","visibility: inherit");
+            this.rule_4=true;
             }
             if(this.has_special){
-            document.getElementById("special").setAttribute("style","visibility: inherit");
+            this.rule_5=true;
             }
             if(this.has_minimum_lenth==true && this.has_number==true && this.has_lowercase==true && this.has_uppercase==true && this.has_special==true){
               document.getElementById("password").setAttribute("style","border-color: rgb(76, 207, 76)");
@@ -273,12 +272,7 @@ transition: border-color 0.5s;
     border-color: #6362E3;
   
 }
-/*.input-group input:focus+label{
-top: 0;
-background-color: #F4F3F4;
-color: #6362E3;
-font-size: 12px;
-}*/
+
 .password-group{
 display: flex;
 flex-direction: column;
@@ -302,7 +296,7 @@ flex-direction: column;
 color: #A7A7A7;
 margin-left: 20px;
 font-family: 'Roboto',sans-serif;
-visibility: hidden;
+/* visibility: hidden; */
 }
 .email-group{
 display: flex;
@@ -312,7 +306,7 @@ flex-direction: column;
 color: #A7A7A7;
 margin-left: 20px;
 font-family: 'Roboto',sans-serif;
-visibility: hidden;
+/* visibility: hidden; */
 }
 .phone-group{
 display: flex;
@@ -322,10 +316,9 @@ flex-direction: column;
 color: #A7A7A7;
 margin-left: 20px;
 font-family: 'Roboto',sans-serif;
-visibility: hidden;
+/* visibility: hidden; */
 }
 .fa-check{
-visibility: hidden;
 color: #61b143;
 padding-left: 5px;
 }

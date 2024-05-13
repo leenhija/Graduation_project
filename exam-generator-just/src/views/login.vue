@@ -10,7 +10,7 @@
     <div class="signup_line"></div>
   <input v-model="email" type="email" class="phone fields" id="email" autocomplete="off" placeholder="Email Address" required @input="validateEmail">
   <input v-model="password" type="password" id="password" class="password fields" autocomplete="off" placeholder="Your password" required @input="validatePassword">
-  <div id="warn" v-show="displayError" v-html='loginError'></div>
+  <div id="warn" v-show="displayError" ><small>Invalid email or password!</small></div>
   <div v-html="userName" class="invisable"></div>
   <button class="login-button" type="submit">Login</button>
   <div class="register">Don't have an account? <router-link :to="{name:'signup'}"><button>Sign up</button></router-link></div>
@@ -21,6 +21,7 @@
   import axios from 'axios';
  // const jwt=require("jsonwebtoken");
   import { RouterLink } from 'vue-router';
+  import loggedin from './loggedin.vue';
   export default{
   name:"login",
   data(){
@@ -45,18 +46,18 @@
                 }}
           )
           const token=response.data;
-              this.$router.push({name:'profile'});
+              this.$router.push({name:'loggedin'});
               localStorage.setItem('token',response.data);
               this.getuser()
             }
               catch(error){
-                  this.loginError="<small>Invalid email or password!</small>";
-            document.getElementById("warn").setAttribute("style","visibility: inherit")
+                  // this.loginError="<small>Invalid email or password!</small>";
+            // document.getElementById("warn").setAttribute("style","visibility: inherit")
             this.displayError=true;
 
             
           }
-          this.displayError=false;
+          // this.displayError=false;
       },
       async getuser(){
        try{
@@ -171,7 +172,7 @@
   #warn{
     font-family: "Roboto", sans-serif;
     margin-left: -150px;
-visibility: hidden;
+/* visibility: hidden; */
 height: 20px;
 color: rgb(255, 87, 87);
   }

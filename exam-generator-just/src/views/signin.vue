@@ -8,7 +8,7 @@
   <form class="login-form" @submit.prevent="checkusers()">
    <div class="signedin"> <h2 >Check your email for </h2><h2>verification code</h2></div>
   <input v-model="code" type="email" class="email fields" id="email" autocomplete="off" placeholder="Verification code" required >
-  <div id="warn" v-show="displayError" v-html='loginError'></div>
+  <div id="warn" v-show="displayError"><small>Invalid email or password!</small></div>
   <button class="login-button" type="submit">Verify</button>
   <!-- <div class="register">Don't have an account? <RouterLink :to="{name:'signup'}"><button>Sign up</button></RouterLink></div> -->
   </form>
@@ -18,6 +18,7 @@
   import { reactive } from 'vue';
   import axios from 'axios';
   import profile from './profile.vue';
+  import loggedin from './loggedin.vue';
 import { RouterLink } from 'vue-router';
 //import { response } from 'express';
   export default{
@@ -27,7 +28,6 @@ import { RouterLink } from 'vue-router';
   email:"",
   password:"",
   validemail:false,
-  loginError:'',
   displayError:false
   };
   },
@@ -38,13 +38,10 @@ import { RouterLink } from 'vue-router';
             password: this.password
           })
             if(response.status==200){
-              this.$router.push({name:'profile'});}}
+              this.$router.push({name:'loggedin'});}}
               catch(error){
-            this.loginError="<small>Invalid email or password!</small>";
-            document.getElementById("warn").setAttribute("style","visibility: inherit")
             this.displayError=true;
           }
-          this.displayError=false;
       },
       validateEmail() {
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))) {
@@ -180,7 +177,6 @@ margin-top: 80px;
   #warn{
     font-family: "Roboto", sans-serif;
     margin-left: -150px;
-visibility: hidden;
 height: 20px;
 color: rgb(255, 87, 87);
   }
