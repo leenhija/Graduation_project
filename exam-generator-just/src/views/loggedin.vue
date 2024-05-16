@@ -18,7 +18,7 @@
   <div class="profile" @mouseleave="hide()">
     <div class="dark_mode_and_profile" v-show="show1">
  <div class="dark_mode_border">
-  <div class="dark_mode_circle"></div>
+  <div class="dark_mode_circle" ></div>
   </div>
   <div class="profile_pic_border" @mouseover="show()">
     <div class="profile_pic">{{ profile_pic }}</div>
@@ -62,6 +62,9 @@ import get_started from '../components/get_started.vue'
 import  features  from '../components/features.vue'
 import footer_bar from '../components/footer_bar.vue'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons';
+import {useDark,useToggle } from '@vueuse/core';
+const isDark=useDark();
+const toggleDark=useToggle(isDark);
 export default{
   components:{
     get_started:get_started,
@@ -267,7 +270,7 @@ justify-content: center;
 margin-right: -10px;
 padding-top: 10px;
 width: 66px;
-height: 66px;
+height: 60px;
 border-radius: 33px 33px 0px 0px;
 background-color: rgba(227, 239, 242, 0.79);
 margin-top: 0px;
@@ -348,6 +351,7 @@ gap: 20px;
    border-radius: 50px;
    background-color: #434343;
 }
+
 .profile .profile_pic_border{
 width: 40px;
 height: 40px;

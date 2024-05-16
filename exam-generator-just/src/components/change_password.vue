@@ -1,5 +1,5 @@
 <template>
-    <div class="edditing_2" >
+    <form class="edditing_2" @submit.prevent="change_password()">
 <div class="profile_part1">
    <h4>Password</h4>
    <p>Change your password settings</p>
@@ -8,33 +8,61 @@
    <div class="profile_part2_a">
        <div class="input_box">
    <p>CURRENT PASSWORD</p>
-<input type="password" class="normal"></div>
+<input type="password" v-model="old_password" class="normal" required></div>
 <div class="input_box">
 <p>NEW PASSWORD</p>
-<input type="password" class="normal"></</div></div>
+<input type="password" class="normal"v-model="new_password" required></</div></div>
 <div class="input_box">
 <p>CONFIRM NEW PASSWORD</p>
-<input type="password" class="normal"></div>
+<input type="password" class="normal" required></div>
 
 </div>
 </div>
 <div class="line"></div>
+<div class="changes" v-show="changes"><p>your password successfully changed</p><i class="fa-solid fa-check" id="8-char" style="color: #61b143;"></i></div>
 <div class="profile_part3">
 <button class="save">Save Changes</button>
 </div>
-</div>
+</form>
 </template>
 <script>
 import router from '@/router';
 import axios from 'axios';
 const jwtToken = localStorage.getItem('token');
+var user_email='';
 export default{
    data(){
        return{
+         old_password:'',
+         new_password:'',
+         changes:false
        }
    },
    methods:{
-   }
+      async change_password(){
+       try{  const response=await axios.put('change_password',{
+            oldpassword:this.old_password,
+            newpassword:this.new_password,
+            email:user_email
+         })
+        this.changes=true;
+      }catch{
+console.log('error')
+      }
+   },
+   async print_userEmail(){
+   const response=axios.get('user',{
+    headers:{
+      Authorization:`Bearer ${jwtToken}`
+    }
+   }).then(response=>{
+   user_email=response.data.email;
+   })
+  }
+},
+mounted(){
+   this.print_userEmail()
+}
 }
 </script>
 <style>
@@ -146,5 +174,19 @@ font-style: normal;
 font-weight: 800;
 line-height: normal;
 
+}
+.changes{
+width: 900px;
+height: 10px;
+background-color: #EAE9EA;
+color: #6362E3;
+font-size: 16px;
+font-family: "Roboto",sans-serif;
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: flex-start;
+padding-left: 30px;
+gap: 5px;
 }
 </style>

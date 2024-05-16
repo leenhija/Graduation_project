@@ -6,7 +6,7 @@
   <div class="pages">
     <!-- <i class="fa-thin fa-house"></i> -->
     <button class="Home"  id="Home" @click="Home()" v-show="home">Home</button>
-<div class="main_border Home_icon"  id="Home_icon" v-show="home_icon"><div class="home_border"><img src="../assets/Home.svg" class="icon">   </div> </div>
+<div class="main_border Home_icon" @click="Home()"  id="Home_icon" v-show="home_icon"><div class="home_border"><img src="../assets/Home.svg" class="icon">   </div> </div>
 <button class="About" @click="About()" id="About" v-show="about">About</button>
 <div class="main_border About_icon" id="About_icon" v-show="about_icon"><div class="home_border"><img src="../assets/About.svg" class="icon">   </div> </div>
 <button class="Contact" id="Contact" @click="Contact()" v-show="contact">Contact</button>
@@ -86,6 +86,7 @@ Home(){
     this.about_icon=false;
     this.contact=true;
     this.contact_icon=false;
+    this.$router.push({name:'loggedin',reload:true});
 }
 ,
 Contact(){
@@ -198,7 +199,7 @@ justify-content: center;
 margin-right: -10px;
 padding-top: 10px;
 width: 66px;
-height: 66px;
+height: 60px;
 border-radius: 33px 33px 0px 0px;
 background-color: rgba(227, 239, 242, 0.79);
 margin-top: 0px;
@@ -349,5 +350,9 @@ cursor: grab;
 }
 .icon_hover:hover{
 width: 20px;
+
+}
+.Home_icon{
+  cursor: grab;
 }
 </style>

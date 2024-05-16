@@ -99,7 +99,7 @@ export default{
 <style>
 .profile_settings{
     width: 100vw;
-    height: 700px;
+    height: 730px;
     display: flex;
     flex-direction: row;
 justify-content:center;
@@ -171,7 +171,7 @@ padding-top: 10px;
 }
 .profile_settings .edditing{
     width: 931px;
-height: 604px;
+height: 630px;
 flex-shrink: 0;
     border-radius: 36px;
 background:#EAE9EA;

@@ -54,6 +54,7 @@ app.post("/login",(req,res)=>{
  // const username=db.query('SELECT username FROM users WHERE email = ? ',[email]);
   var isloggedin;
   let query1=db.query('SELECT * FROM users WHERE email = ? ',[email],(err,result)=>{
+    
     if (err) {
       console.error('Error executing SQL query:', err);
       return res.status(500).send('Internal server error');
@@ -64,7 +65,7 @@ app.post("/login",(req,res)=>{
     }
       if(result[0].email===email && result[0].password===password)
         {
-          const token=jwt.sign({_email:email,_password:password,_username:result[0].username},"secret");
+          const token=jwt.sign({_email:email,_password:password,_username:result[0].username,_phonenumber:result[0].phonenumber,_country:result[0].country,_headline:result[0].headline},"secret");
           res.cookie('jwt',token,{
             httpOnly:true,
           }).status(200).send(token);  
@@ -121,13 +122,17 @@ app.get("/user",async(req,res)=>{
   
       const userEmail = decoded._email; 
       const userName=decoded._username;
-      res.status(200).json({ email: userEmail ,username:userName});
+      const phone_number=decoded._phonenumber;
+      const user_country=decoded._country;
+      const HeadLine=decoded._headline;
+      res.status(200).json({ email: userEmail ,username:userName,phonenumber:phone_number,country:user_country,headline:HeadLine});
     });
   });
-app.put('add_counter',async(req,res)=>{
-const {country,email}=req.body;
+app.put('/add_country_and_headline',async(req,res)=>{
+const {country,headline,email}=req.body;
 try{
-db.query('INSERT INTO users (country) VALUES ?',country,(err,result)=>{
+  if(country!='' && headline!=''){
+db.query(`UPDATE users SET country = ? , headline = ? WHERE email = ?`,[country,headline,email],(err,result)=>{
 if(err){
   console.log(err);
     res.status(500).json({ error: 'Failed to add country' });
@@ -135,13 +140,47 @@ if(err){
 }else{
   return res.status(200).json({ message: 'Profile updated successfully'});
 }
-})
+})}else if (country!='' && headline==''){
+  db.query(`UPDATE users SET country = ? WHERE email = ?`,[country,email],(err,result)=>{
+    if(err){
+      console.log(err);
+        res.status(500).json({ error: 'Failed to add country' });
+          return;
+    }else{
+      return res.status(200).json({ message: 'Profile updated successfully'});
+    }
+    })
+}else if (country=='' && headline!=''){
+  db.query(`UPDATE users SET headline = ? WHERE email = ?`,[headline,email],(err,result)=>{
+    if(err){
+      console.log(err);
+        res.status(500).json({ error: 'Failed to add country' });
+          return;
+    }else{
+      return res.status(200).json({ message: 'Profile updated successfully'});
+    }
+    })
+}
 } catch (error) {
 console.error('Error updating profile:', error);
 return res.status(500).json({ message: 'Internal server error' });
 }
 })
-     
+   app.put('/change_password',async(req,res)=>{
+    const {oldpassword,newpassword,email}=req.body;
+    try{
+      if(oldpassword!=newpassword){
+     db.query('UPDATE users SET password = ? WHERE email = ?',[newpassword,email],(err,result)=>{
+      return res.status(200).json({ message: 'Profile updated successfully'});
+     })}
+     else{
+      return res.status(403).json({message:'this password already exists'});
+     }
+    }catch{
+      console.error('Error updating profile:', error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+   })  
 app.listen("5000",()=>{
 console.log("server is connected");
 })
