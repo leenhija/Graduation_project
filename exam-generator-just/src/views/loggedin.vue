@@ -85,7 +85,8 @@ export default{
      about:true,
      about_icon:false,
      contact:true,
-     contact_icon:false
+     contact_icon:false,
+     isclicked:false
     };
   }
 ,methods:{
@@ -340,7 +341,21 @@ gap: 20px;
   flex-direction: row;
   align-items: center;
   padding-left: 5px;
+  padding-right: 5px;
   justify-content: flex-start;
+}
+.right_side{
+  width: 40px;
+  height: 20px;
+  background-color: #D9D9D9;
+  border: #434343 3px solid;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  justify-content: flex-end;
 }
 .gotoprofile{
   cursor: grab;

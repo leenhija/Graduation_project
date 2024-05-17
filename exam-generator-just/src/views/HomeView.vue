@@ -27,7 +27,18 @@ body{
   margin-bottom: 0px;
 }
 
+::-webkit-scrollbar{
+  width: 15px;
 
-
-
+}
+::-webkit-scrollbar-track {
+  background-color:#F4F3F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9D9D9;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #949292;
+}
 </style>

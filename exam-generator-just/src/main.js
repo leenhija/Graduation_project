@@ -15,6 +15,6 @@ app.use(createPinia())
 app.use(router)
 //app.use(VueCookies, { expires: '7d'})
 app.mount('#app')
-if (process.env.NODE_ENV !== 'production') {
-    axios.defaults.baseURL = 'http://localhost:5000'; // Adjust if your server runs on a different port
-  }
+// if (process.env.NODE_ENV !== 'production') {
+//     axios.defaults.baseURL = 'http://localhost:5000'; // Adjust if your server runs on a different port
+//   }

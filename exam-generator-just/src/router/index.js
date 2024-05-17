@@ -37,7 +37,12 @@ const router = createRouter({
         path:'/signin',
         name:'signin',
         component:()=> import('../views/signin.vue')
-        } 
+        } ,
+        {
+          path:'/qustions',
+          name:'qustions',
+          component:()=> import('../views/qustions.vue')
+          } 
   ]
 })
 router.beforeEach((to, from, next) => {
