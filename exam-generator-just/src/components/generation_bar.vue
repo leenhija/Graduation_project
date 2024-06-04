@@ -24,7 +24,7 @@
 <p class="text2">Power Up Your Assessments with AI-Driven Exams</p>
 </div>
 <div class="generate_button">
-<button @click="test()">Generate Exam</button>
+<button @click="{ $router.push({name:'materailandexamchar'}); }">Generate Exam</button>
 </div>
 </div>
     </div>
@@ -72,20 +72,7 @@ Contact(){
     this.contact_icon=true;
 },
    async test(){
-  try{ const response=await axios.post('http://127.0.0.1:5000/generate-exam',{
-    "material":"Animals are important for the environment and even our lives.",
-    "mcqNum":5,
-    "optionNum": 5,
-    "difficulty":"easy"
-    ,headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                }
-   })
-   console.log(response);
-  }catch{
-   console.log('error lolo');
-   }
+
   }
   }
 }

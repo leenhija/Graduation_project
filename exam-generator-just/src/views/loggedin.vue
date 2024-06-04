@@ -30,9 +30,9 @@
   <div class="profile_pic_border" @click="gotoprofile()">
     <div class="profile_pic">{{ profile_pic }}</div>
   </div><div class="username">{{username}}</div></li>
-      <li class="your_profile gotoprofile" @click="gotoprofile()"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
+      <li class="your_profile gotoprofile" @click="$router.push({name:'profile'})"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
       <li class="your_profile"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
-      <li class="your_profile"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
+      <li class="your_profile" @click="gotoprofile()"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
       <li class="your_profile"><img src="../assets/dark_mode_icon.svg" class="icon_hover"> Dark Mode</li>
       <li class="your_profile"><img src="../assets/privacy_policy_icon.svg" class="icon_hover"> Privacy Policy</li>
       <li class="your_profile support_us"><img src="../assets/support_icon.svg" class="icon_hover"> Support Us</li>
@@ -46,7 +46,7 @@
 <p class="text2">Power Up Your Assessments with AI-Driven Exams</p>
 </div>
 <div class="generate_button">
-<button>Generate Exam</button>
+<button @click=" $router.push({name:'materailandexamchar'}); ">Generate Exam</button>
 </div>
 </div>
 </div>
@@ -145,7 +145,7 @@ hide(e){
 ,
 gotoprofile()
 {
-  this.$router.push({name:'profile',reload:true});
+  this.$router.push({name:'settings',reload:true});
 }
     }
 ,
@@ -479,7 +479,7 @@ border: none;
 border-radius: 30px;
 filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 color: rgba(0, 0, 0, 0.70);
-
+cursor: grab;
 font-family: "Roboto";
 font-size: 25px;
 font-style: normal;

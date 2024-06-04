@@ -29,9 +29,9 @@ const router = createRouter({
       component:()=>import('../views/loggedin.vue')
       },
       {
-       path:'/profile',
-       name:'profile',
-       component:()=>import('../views/profile.vue')
+       path:'/settings',
+       name:'settings',
+       component:()=>import('../views/settings.vue')
       },
       {
         path:'/signin',
@@ -39,10 +39,21 @@ const router = createRouter({
         component:()=> import('../views/signin.vue')
         } ,
         {
-          path:'/qustions',
-          name:'qustions',
-          component:()=> import('../views/qustions.vue')
-          } 
+          path:'/materailandexamchar',
+          name:'materailandexamchar',
+          component:()=> import('../views/materailandexamchar.vue')
+          } ,
+          {
+            path:'/editExam',
+            name:'editExam',
+            component:()=>import('../views/editExam.vue')
+          }
+          ,
+          {
+            path:'/profile',
+            name:'profile',
+            component:()=>import('../views/profile.vue')
+          }
   ]
 })
 router.beforeEach((to, from, next) => {

@@ -19,9 +19,10 @@
   </template>
   <script >
   import axios from 'axios';
- // const jwt=require("jsonwebtoken");
+// const jwt=require("jsonwebtoken");
   import { RouterLink } from 'vue-router';
   import loggedin from './loggedin.vue';
+  import router from '@/router';
   export default{
   name:"login",
   data(){
@@ -65,7 +66,6 @@
         email:this.email
        })
        this.userName=response.data.username;
-       console.log(userName);
       }
       catch(error){console.log("error")}
     },

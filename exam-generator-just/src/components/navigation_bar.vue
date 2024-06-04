@@ -28,9 +28,9 @@
   <div class="profile_pic_border" @click="gotoprofile()">
     <div class="profile_pic">{{ profile_pic }}</div>
   </div><div class="username">{{username}}</div></li>
-      <li class="your_profile gotoprofile" @click="gotoprofile()"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
+      <li class="your_profile gotoprofile" @click="$router.push({name:'profile'})"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
       <li class="your_profile"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
-      <li class="your_profile"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
+      <li class="your_profile"@click="gotoprofile()"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
       <li class="your_profile"><img src="../assets/dark_mode_icon.svg" class="icon_hover"> Dark Mode</li>
       <li class="your_profile"><img src="../assets/privacy_policy_icon.svg" class="icon_hover"> Privacy Policy</li>
       <li class="your_profile support_us"><img src="../assets/support_icon.svg" class="icon_hover"> Support Us</li>
@@ -65,7 +65,6 @@ export default{
       Authorization:`Bearer ${jwtToken}`
     }
    }).then(response=>{
-    console.log(response.data);
     this.username=response.data.username;
      this.profile_pic=response.data.email.substring(0,2).toUpperCase();
    })
@@ -115,7 +114,7 @@ hide(e){
 ,
 gotoprofile()
 {
-  this.$router.push({name:'profile',reload:true});
+  this.$router.push({name:'settings',reload:true});
 },
 list_style(){
     return{
@@ -260,7 +259,7 @@ justify-content: center;
 gap: 20px;
 }
 .profile .dark_mode_border{
-  width: 20px;
+  width: 40px;
   height: 20px;
   background-color: #D9D9D9;
   border: #434343 3px solid;

@@ -25,7 +25,7 @@
     <div class="input_box">
     <p class="edit">HEADLINE<button @click.prevent="enable_edit2()"><img src="../assets/edit_icon.svg"></button></p>
     <p v-show="show_headline">{{ user_headline }}</p>
-    <input type="text" class="special" v-show="edit_headline" v-model="headline" :placeholder="user_headline" :disabled="disable2"></div>
+    <textarea type="text" class="special" v-show="edit_headline" v-model="headline" :placeholder="user_headline" :disabled="disable2"></textarea></div>
 </div>
 </div>
 <div class="line"></div>
@@ -215,6 +215,8 @@ width: 212px;
 height: 145px;
 flex-shrink: 0;
 outline: none;
+padding: 10px;
+resize: none;
 }
 .profile_part2 .special:focus{
 border: solid 1px #6362E3;

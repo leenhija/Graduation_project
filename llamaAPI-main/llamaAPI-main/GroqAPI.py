@@ -1,5 +1,6 @@
 import json 
 import PyPDF2
+# import os 
 from groq import Groq
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -7,15 +8,22 @@ import re
 
 app= Flask(__name__)
 CORS(app)
-# def extract_text(pdf_file:str)-> [str]: # type: ignore
-#     with open(pdf_file,'rb') as pdf:
-#         reader = PyPDF2.PdfReader(pdf,strict=False)
-#         pdf_text = []
+cors=CORS(app,resources={
+    r"/*":{
+        "origins":"*"
+    }
+})
+# function for converting PDF files into Text files to send it to the GroqAPI
+def extract_text(pdf_file:str)-> [str]: # type: ignore
+    with open(pdf_file,'rb') as pdf:
+        reader = PyPDF2.PdfReader(pdf,strict=False)
+        pdf_text = []
 
-#         for page in reader.pages:
-#             content = page.extract_text()
-#             pdf_text.append(content)
-#         return pdf_text
+        for page in reader.pages:
+            content = page.extract_text()
+            pdf_text.append(content)
+        return pdf_text
+    
 
 client = Groq(
     api_key = "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"
@@ -58,26 +66,42 @@ json_format = {
 @app.route("/generate-exam", methods=["POST"])
 def generate_exam():
 
-    data = request.get_json()
+    data = request.get_json() #here we get the data
 
-    mcqMaterial= data["material"]
-    mcqNumber = data["mcqNum"]
-    mcqOptionNum=data["optionNum"]
-    mcqDifficulty= data["difficulty"]
+    exam_material = ""
+
+    # Handling text
+    if data["text"].strip() != "":
+        exam_material = data["text"]
+
+    elif data["sendFile"].strip() != "":
+        PDF_Path = data["sendFile"]
+
+        #converting the file from PDF format into text format 
+        extracted_text = extract_text( PDF_Path)
+        # exam_material = "".join( extracted_text)
+        for i in extracted_text:
+            exam_material+=i
+    else:
+        exam_material = None
+
+    # difficulty for each MCQ
+    easy_mcq = data["easy"]
+    mid_mcq = data["mid"]
+    hard_mcq= data["hard"]
+
+    # Number of options 
+    optionNum = data["numOfOptions"]
     
-    # extracted_text = extract_text('convert.pdf')
-    # text = ""
-    # for i in extracted_text:
-    #     text+=i
+    
 
     chat_completion = client.chat.completions.create(
 
         model= "llama3-70b-8192",
         messages= [
             {"role":"system","content":"You are an exam master"},
-            {"role":"user","content": f"generate {mcqNumber} {mcqDifficulty} multiple choice questions from this {mcqMaterial}, each question should have {mcqOptionNum} options, return it in a json format like this {json_format} without any additional text or explanation and without introductory text like here is a ...questions ."},        ],  
+            {"role":"user","content": f"generate {easy_mcq} easy, {mid_mcq} medium, and {hard_mcq} multiple choice questions from this {exam_material}, each question should have {optionNum} options, return it in a json format like this {json_format} with double quotes only not single quotes without any additional text or explanation and without introductory text like here is a ...questions and don't write something like this: *Easy Questions (5)* or like this:Here are the questions:, and use double quotes only not single quotes"},        ],  
      )
-    
     responseData = json.loads(chat_completion.choices[0].message.content)
     # output_file_path = 'responseData.json'
 
@@ -91,88 +115,6 @@ def generate_exam():
     # return jsonify({"mcq": mcq_text}), 201  # Return only the MCQ in a dictionary
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5173)
 
 # print(chat_completion.choices[0].message.content)
-# import json 
-# import PyPDF2
-# import os 
-# from groq import Groq
-# from flask import Flask, request, jsonify
-
-# app= Flask(__name__)
-
-
-# def extract_text(pdf_file:str)-> [str]:
-#     with open(pdf_file,'rb') as pdf:
-#         reader = PyPDF2.PdfReader(pdf,strict=False)
-#         pdf_text = []
-
-#         for page in reader.pages:
-#             content = page.extract_text()
-#             pdf_text.append(content)
-#         return pdf_text
-    
-
-# client = Groq(
-#     api_key = "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"
-# )
-
-# json_format = {
-#     "1": {
-#         "mcq": "multiple choice question",
-#         "option": {
-#             "a": "choice here",
-#             "b": "choice here",
-#             "c": "choice here",
-#             "d": "choice here"
-#         },
-#         "correct": "correct answer"
-#     },
-#     "2": {
-#         "mcq": "multiple choice question",
-#         "option": {
-#             "a": "choice here",
-#             "b": "choice here",
-#             "c": "choice here",
-#             "d": "choice here"
-#         },
-#         "correct": "correct answer"
-#     },
-#     "3": {
-#         "mcq": "multiple choice question",
-#         "option": {
-#             "a": "choice here",
-#             "b": "choice here",
-#             "c": "choice here",
-#             "d": "choice here"
-#         },
-#         "correct": "correct answer"
-#     }
-
-# }
-
-# @app.route("/generate-exam", methods=["POST"])
-# def generate_exam():
-#     if request.method == "POST":
-
-#         extracted_text = extract_text('convert.pdf')
-#         text = ""
-#         for i in extracted_text:
-#             text+=i
-
-
-#         chat_completion = client.chat.completions.create(
-
-#             model= "llama3-70b-8192",
-#             messages= [
-#                 {"role":"system","content":"You are an exam master"},
-#                 {"role":"user","content": f"generate 10 easy multiple choice questions from this {text}, each question should have 3 options, return it in a json format like this ${json_format}"},
-#             ],  
-#         )
-#         return jsonify(chat_completion.choices[0].message.content),200
-
-# if __name__ == "__main__":
-#     app.run(debug=True)
-
-# # print(chat_completion.choices[0].message.content)

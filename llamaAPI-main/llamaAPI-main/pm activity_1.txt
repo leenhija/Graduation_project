@@ -1,0 +1,64 @@
+Section A
+A
+1.A project is a temporary endeavor undertaken to create a unique product, service, or result
+
+2.Project vs Operations
+
+Similar:
+Both are performed by people.
+Both are planned, executed, Monitored and controlled.
+Both have resource limitations.
+
+Different:
+Projects are unique and temporary (with a definitive beginning and ending), while operations are ongoing and permanent.
+Projects have a fixed budget, while operations have to earn a profit to run the business.
+Projects are executed to start a new objective and terminated when it is achieved, while operational work does not produce anything new.
+
+3.Project Success means that the project meets its objectives under budget and under schedule
+
+
+
+
+B
+1.Customers,Suppliers,Competitors,Project Manager,Project Team,Project Sponsor.
+2.The project sponsor usually provides the direction and funding for the project
+3.The amount of authority a project manager possesses can be related to the organizational structure.
+4.Project manager's independence and authority is strongest in projectized organizations and weakest
+in functional organizations.
+5.leaders have power to make some decisions, some authority and report to a higherlevel manager.
+
+C
+1.A Project Life Cycle is a collection of phases that a project passes through from its start to end,
+generally sequential.
+
+2.A Project Phase is a collection of logically related project activities that culminates in the completion of one or more deliverables.
+3. The five process groups are initiation, planning, execution, monitoring and controlling, and closure.
+
+section B
+
+1.True
+2.True
+3.True
+4.True
+5.True
+6.False
+
+Section C:
+1.d. Repeats itself every month.
+2.c. On-going and repetitive.
+3.c. processing deposits and withdrawals in a bank
+4.d. new homeowners
+5.b. Balanced matrix
+6.d. All employees report to one manager and have a clear chain of command
+7.c. Strong matrix
+8.b. Will not always have a 'home'
+9.b. Matrix
+10.b. Functional manager & PM
+11.b. Functional organization
+12.d. Project organization.
+13.d. Maximum at the start and then gradually weakens towards the end of the project.
+14.c. Many different project life cycle models are used, for different types of projects.
+15.c. unclear or conflicting stakeholder expectations
+
+
+
