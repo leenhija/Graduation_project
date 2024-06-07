@@ -171,6 +171,7 @@ body{
   margin-right: 30px;
   margin-left: 0px;
   overflow: visible;
+  z-index: 999;
 }
 .pages{
 display: flex;

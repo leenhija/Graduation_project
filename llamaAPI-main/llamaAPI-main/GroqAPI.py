@@ -5,7 +5,13 @@ from groq import Groq
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
+import mysql.connector
 
+connection=mysql.connector.connect(host="localhost",user="root",password="",database="loginusers")
+if connection.is_connected():
+    print('connected')
+else:
+    print('faild to connect to database')
 app= Flask(__name__)
 CORS(app)
 cors=CORS(app,resources={
