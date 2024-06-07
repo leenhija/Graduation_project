@@ -101,12 +101,31 @@ def generate_exam():
     
     
 
+    # chat_completion = client.chat.completions.create(
+
+    #     model= "llama3-70b-8192",
+    #     messages= [
+    #         {"role":"system","content":"You are an exam master"},
+    #         {"role":"user","content": f"generate {easy_mcq} easy, {mid_mcq} medium, and {hard_mcq} multiple choice questions from this {exam_material}, each question should have {optionNum} options, return it in a json format like this {json_format} with double quotes only not single quotes without any additional text or explanation and without introductory text like here is a ...questions and don't write something like this: *Easy Questions (5)* or like this:Here are the questions:, and use double quotes only not single quotes"},        ],  
+    #  )
     chat_completion = client.chat.completions.create(
 
         model= "llama3-70b-8192",
         messages= [
-            {"role":"system","content":"You are an exam master"},
-            {"role":"user","content": f"generate {easy_mcq} easy, {mid_mcq} medium, and {hard_mcq} multiple choice questions from this {exam_material}, each question should have {optionNum} options, return it in a json format like this {json_format} with double quotes only not single quotes without any additional text or explanation and without introductory text like here is a ...questions and don't write something like this: *Easy Questions (5)* or like this:Here are the questions:, and use double quotes only not single quotes"},        ],  
+            {"role":"system","content":"You are an expert MCQ maker."},
+            {
+            "role": "user",
+            "content": f"Generate a set of multiple choice questions based on the following material: {exam_material}. "
+                       f"Please specify the difficulty and number of questions: \n"
+                       f"- *Easy:* {easy_mcq} questions\n"
+                       f"- *Medium:* {mid_mcq} questions\n"
+                       f"- *Hard:* {hard_mcq} questions\n"
+                       f"Each question should have {optionNum} answer choices (including the correct answer). "
+                       f"the output should be a JSON object in the following format:\n"
+                       f"{json_format}\n"
+                       f"Respond with only the JSON object, without any additional text."
+            },   
+        ],  
      )
     responseData = json.loads(chat_completion.choices[0].message.content)
     # output_file_path = 'responseData.json'
