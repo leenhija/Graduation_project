@@ -7,7 +7,7 @@ from flask_cors import CORS
 import re
 import mysql.connector
 
-connection=mysql.connector.connect(host="localhost",user="root",password="",database="loginusers")
+connection=mysql.connector.connect(host="localhost",user="root",password="",database="rapidly")
 if connection.is_connected():
     print('connected')
 else:
@@ -68,6 +68,22 @@ json_format = {
     }
 
 }
+# @app.route("/upload", methods=["POST"])
+# def upload_file():
+#     if 'file' not in request.files:
+#         return jsonify({'error': 'No file part'}), 400
+
+#     file = request.files['file']
+
+#     if file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
+
+#     if file and file.filename.endswith('.pdf'):
+#         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#         file.save(file_path)  # Save the file to a local path
+#         return jsonify({'file_path': file_path})
+
+#     return jsonify({'error': 'Invalid file type'}),400
 
 @app.route("/generate-exam", methods=["POST"])
 def generate_exam():
@@ -128,6 +144,7 @@ def generate_exam():
         ],  
      )
     responseData = json.loads(chat_completion.choices[0].message.content)
+    print(responseData)
     # output_file_path = 'responseData.json'
 
     # with open(output_file_path, 'w') as json_file:

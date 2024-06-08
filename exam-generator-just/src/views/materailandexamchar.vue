@@ -95,9 +95,17 @@ export default {
         },
         uploadFile(event) {
             this.uploadefile = event.target.files[0].name;
-            this.sendFile = event.target.files[0].name;
+            console.log(event.target.files[0].mozFullPath);
+            console.log(event.target.value);
+            // var modifiedfilename1= event.target.value.replaceAll('\\','/');
+            // var modifiedfilename2= modifiedfilename1.replace(/\s/g,'/')
+            // this.sendFile = modifiedfilename2;
+            this.sendFile=event.target.files[0].name;
             console.log(this.sendFile);
             this.uploaded = true;
+            // let reader=new FileReader();
+            // var file=reader.readAsText(this.sendFile);
+            // console.log(file);
         },
         addcontent() {
             document.getElementById("quill").innerHTML = this.newtext;

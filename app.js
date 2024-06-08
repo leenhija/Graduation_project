@@ -18,7 +18,7 @@ const db=mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'',
-    database:'loginusers',
+    database:'rapidly',
 });
 app.use((req,res,next)=>{
 res.header("Access-Control-Allow-Origin","*");
