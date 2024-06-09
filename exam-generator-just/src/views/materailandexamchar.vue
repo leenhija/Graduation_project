@@ -51,7 +51,9 @@ export default {
                     easy: this.easy,
                     mid: this.mid,
                     hard: this.hard,
-                    numOfOptions: this.numOfOPtions
+                    numOfOptions: this.numOfOPtions,
+                    examName:"cpp",
+                    userId:1
                     , headers: {
                         Accept: 'application/json',
                         'Content-Type': 'application/json',

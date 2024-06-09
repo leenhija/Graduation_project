@@ -65,7 +65,8 @@ app.post("/login",(req,res)=>{
     }
       if(result[0].email===email && result[0].password===password)
         {
-          const token=jwt.sign({_email:email,_password:password,_username:result[0].username,_phonenumber:result[0].phonenumber,_country:result[0].country,_headline:result[0].headline},"secret");
+          console.log(result[0])
+          const token=jwt.sign({_email:email,_password:password,_username:result[0].username,_phonenumber:result[0].phonenumber,_country:result[0].country,_headline:result[0].headline,_id:result[0].id},"secret");
           res.cookie('jwt',token,{
             httpOnly:true,
           }).status(200).send(token);  
@@ -125,7 +126,8 @@ app.get("/user",async(req,res)=>{
       const phone_number=decoded._phonenumber;
       const user_country=decoded._country;
       const HeadLine=decoded._headline;
-      res.status(200).json({ email: userEmail ,username:userName,phonenumber:phone_number,country:user_country,headline:HeadLine});
+      const ID=decoded._id;
+      res.status(200).json({ email: userEmail ,username:userName,phonenumber:phone_number,country:user_country,headline:HeadLine,id:ID});
     });
   });
 app.put('/add_country_and_headline',async(req,res)=>{

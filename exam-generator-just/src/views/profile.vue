@@ -12,7 +12,7 @@
 </div>
   </div>
   <div class="info2">
-   <img src="../assets/location.svg">
+   <img src="../assets/location.svg" v-show="country_filled">
    <div class="countery">{{ country }}</div>
   </div>
 </div>
@@ -38,7 +38,8 @@ return{
     username:'',
     profile_pic:'',
     headline:'',
-    country:''
+    country:'',
+    country_filled:false
 }
 },
 methods:{
@@ -52,6 +53,11 @@ methods:{
      this.profile_pic=response.data.email.substring(0,2).toUpperCase();
      this.headline=response.data.headline;
      this.country=response.data.country;
+     if(this.country!="")
+     this.country_filled=true;
+    else
+    this.country_filled=false;
+     console.log(response.data.id)
    })
   }
 },

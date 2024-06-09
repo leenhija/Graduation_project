@@ -6,12 +6,17 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import re
 import mysql.connector
-
+from datetime import datetime
 connection=mysql.connector.connect(host="localhost",user="root",password="",database="rapidly")
 if connection.is_connected():
     print('connected')
 else:
     print('faild to connect to database')
+
+
+#cursor object
+mycursor= connection.cursor()
+
 app= Flask(__name__)
 CORS(app)
 cors=CORS(app,resources={
@@ -115,8 +120,18 @@ def generate_exam():
     # Number of options 
     optionNum = data["numOfOptions"]
     
-    
+    exam_name= data["examName"]
+    user_id = data["userId"]
+    created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #sending to the database 
+    # exam_id= 12
 
+    #sending to the database 
+    mycursor.execute("INSERT INTO exam (ExamName, CreatedAt, userID) VALUES (%s, %s, %s)",(exam_name,created_at,user_id))
+    # mycursor.execute("INSERT INTO exam (ExamName, CreatedAt, userID) VALUES (%s,%s, %s, %s)",(exam_name, created_at,user_id))
+    # Get the last inserted ExamID
+    exam_id = mycursor.lastrowid
+    connection.commit()
     # chat_completion = client.chat.completions.create(
 
     #     model= "llama3-70b-8192",
@@ -146,10 +161,22 @@ def generate_exam():
     responseData = json.loads(chat_completion.choices[0].message.content)
     print(responseData)
     # output_file_path = 'responseData.json'
-
+    # question_id=0
+    # option_id=0
+    for key, question_data in responseData.items():
+        question_text = question_data["mcq"]
+        # question_id+=1
+        mycursor.execute("INSERT INTO qustions (Qustion, ExamID) VALUES (%s,%s)", (question_text,exam_id))
+        question_id = mycursor.lastrowid
+        options= question_data["option"]
+        for option_key, option_text in options.items():
+            # option_id+=1
+            mycursor.execute(
+                "INSERT INTO options (option,qustionID) VALUES (%s,%s)",
+                (option_text, question_id))
     # with open(output_file_path, 'w') as json_file:
     #     json.dump(responseData, json_file, indent=4)
-
+    connection.commit()
     return responseData,201
 
 
