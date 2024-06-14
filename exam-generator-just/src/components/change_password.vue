@@ -25,46 +25,35 @@
 </div>
 </form>
 </template>
-<script>
-import router from '@/router';
-import axios from 'axios';
-const jwtToken = localStorage.getItem('token');
-var user_email='';
-export default{
-   data(){
-       return{
-         old_password:'',
-         new_password:'',
-         changes:false
-       }
-   },
-   methods:{
-      async change_password(){
-       try{  const response=await axios.put('change_password',{
-            oldpassword:this.old_password,
-            newpassword:this.new_password,
-            email:user_email
-         })
-        this.changes=true;
-      }catch{
-console.log('error')
-      }
-   },
-   async print_userEmail(){
-   const response=axios.get('user',{
-    headers:{
-      Authorization:`Bearer ${jwtToken}`
-    }
-   }).then(response=>{
-   user_email=response.data.email;
-   })
+<script setup>
+import { ref,onMounted } from 'vue';
+ import axiosInstance from '@/axios';;
+import { userStore } from '@/stores/user';
+
+ 
+const old_password = ref('');
+const new_password = ref('');
+const changes = ref(false);
+const user_email=ref('');
+async function change_password() {
+  try {
+    const response = await axiosInstance.put('change_password', {
+      oldpassword: old_password.value,
+      newpassword: new_password.value,
+      email: user_email.value,
+    });
+    changes.value = true;
+  } catch {
+    console.log('error');
   }
-},
-mounted(){
-   this.print_userEmail()
 }
-}
+onMounted(() => {
+   user_email.value=userStore().user.email;
+
+ });
 </script>
+
+ 
 <style>
 .edditing_2{
    display:flex;

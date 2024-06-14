@@ -7,8 +7,7 @@
 </template>
 <script>
 import router from '@/router';
-import axios from 'axios';
-const jwtToken = localStorage.getItem('token');
+ const jwtToken = localStorage.getItem('token');
 export default{
    data(){
        return{

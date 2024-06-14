@@ -16,7 +16,7 @@
   </template>
   <script >
   import { reactive } from 'vue';
-  import axios from 'axios';
+  import axiosInstance from '@/axios';;
   import profile from './profile.vue';
   import loggedin from './loggedin.vue';
 import { RouterLink } from 'vue-router';
@@ -33,7 +33,7 @@ import { RouterLink } from 'vue-router';
   },
     methods: {
       async checkusers(){
-        try {const response = await axios.post(`login`, {
+        try {const response = await axiosInstance.post(`login`, {
             email: this.email ,
             password: this.password
           })

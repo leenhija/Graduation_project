@@ -55,16 +55,16 @@
   <footer_bar></footer_bar>
 </template>
 <script>
-import router from '@/router';
-import axios from 'axios';
-const jwtToken = localStorage.getItem('token');
-import get_started from '../components/get_started.vue'
+  import get_started from '../components/get_started.vue'
 import  features  from '../components/features.vue'
 import footer_bar from '../components/footer_bar.vue'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 import {useDark,useToggle } from '@vueuse/core';
+import { userStore } from '@/stores/user';
 const isDark=useDark();
 const toggleDark=useToggle(isDark);
+const store = userStore();
+
 export default{
   components:{
     get_started:get_started,
@@ -91,16 +91,10 @@ export default{
   }
 ,methods:{
   async print_userEmail(){
-   const response=axios.get('user',{
-    headers:{
-      Authorization:`Bearer ${jwtToken}`
-    }
-   }).then(response=>{
-    console.log(response.data);
-    this.username=response.data.username;
-     this.profile_pic=response.data.email.substring(0,2).toUpperCase();
-   })
-  }
+    
+    this.username=store.user.firstName;
+     this.profile_pic=store.user.email.substring(0,2).toUpperCase();
+   }
  , 
  About(){
   this.home_icon=false;

@@ -15,7 +15,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.6",
     "@sphereon/react-native-argon2": "^2.0.9",
     "@vueuse/core": "^10.9.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "blueimp-md5": "^2.19.0",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",

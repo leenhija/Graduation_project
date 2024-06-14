@@ -27,8 +27,9 @@
 </template>
 <script>
 import navigation_bar from '@/components/navigation_bar.vue';
-import axios from 'axios';
-const jwtToken = localStorage.getItem('token');
+ const jwtToken = localStorage.getItem('token');
+import { userStore } from '@/stores/user';
+
 export default{
 components:{
     navigation_bar:navigation_bar,
@@ -44,22 +45,15 @@ return{
 },
 methods:{
     async print_userEmail(){
-   const response=axios.get('user',{
-    headers:{
-      Authorization:`Bearer ${jwtToken}`
-    }
-   }).then(response=>{
-    this.username=response.data.username;
-     this.profile_pic=response.data.email.substring(0,2).toUpperCase();
-     this.headline=response.data.headline;
-     this.country=response.data.country;
+    this.username=userStore?.user?.firstName;
+     this.profile_pic=userStore?.user?.email.substring(0,2).toUpperCase();
+     this.headline=userStore?.user?.headline;
+     this.country=userStore?.user?.country;
      if(this.country!="")
      this.country_filled=true;
     else
     this.country_filled=false;
-     console.log(response.data.id)
-   })
-  }
+   }
 },
 mounted(){
     this.print_userEmail();

@@ -20,8 +20,7 @@
 </template>
 <script>
 import router from '@/router';
-import axios from 'axios';
-import editing_1 from '../components/editing_1.vue'
+ import editing_1 from '../components/editing_1.vue'
 import change_password from '../components/change_password.vue'
 // import { fas } from '@fortawesome/free-solid-svg-icons';
 import appearance from '../components/appearance.vue';

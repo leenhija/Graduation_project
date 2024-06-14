@@ -18,7 +18,7 @@
   </div>
   </template>
   <script >
-  import axios from 'axios';
+  import axiosInstance from '@/axios';;
 // const jwt=require("jsonwebtoken");
   import { RouterLink } from 'vue-router';
   import loggedin from './loggedin.vue';
@@ -37,19 +37,13 @@
   },
     methods: {
       async checkusers(){
-       try {const response = await axios.post(`login`, {
+       try {const {data} = await axiosInstance.post(`/api/auth/login`, {
             email: this.email ,
-            password: this.password
-          ,
-          headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                }}
-          )
-          const token=response.data;
-              this.$router.push({name:'loggedin'});
-              localStorage.setItem('token',response.data);
-              this.getuser()
+            password: this.password}
+          );
+           const token= data?.data?.token;
+           localStorage.setItem('token',token);
+            this.$router.push({name:'loggedin'});
             }
               catch(error){
                   // this.loginError="<small>Invalid email or password!</small>";
@@ -57,18 +51,9 @@
             this.displayError=true;
 
             
-          }
+          }},
           // this.displayError=false;
-      },
-      async getuser(){
-       try{
-        const response=await axios.post(`getusers`,{
-        email:this.email
-       })
-       this.userName=response.data.username;
-      }
-      catch(error){console.log("error")}
-    },
+     
       validateEmail() {
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email))) {
       document.getElementById("email").setAttribute("style","border-color: rgb(232, 93, 93)");

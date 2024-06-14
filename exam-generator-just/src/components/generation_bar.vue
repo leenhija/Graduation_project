@@ -32,8 +32,7 @@
 </template>
 <script>
 import { faL } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-
+ 
 export default{
   data(){
     return{

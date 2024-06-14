@@ -22,10 +22,7 @@
 </div>
 </template>
 <script>
-import router from '@/router';
-import axios from 'axios';
-const jwtToken = localStorage.getItem('token');
-export default{
+  export default{
    data(){
        return{
        }
