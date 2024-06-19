@@ -31,14 +31,14 @@ export default {
       editor: null,
       btnLoading: false,
       filename:'',
-     
+     showlink:false
     };
   },
   methods: {
     async generateExam() {
       try {
         this.btnLoading = true;
-        console.log(this.numOfOPtions);
+        console.log(this.uploadfile);
         const formData = new FormData();
         formData.append("file", this.uploadefile);
         formData.append("examMaterial", this.text);
@@ -48,7 +48,6 @@ export default {
         formData.append("optionNum", this.numOfOPtions);
         const { data } = await axiosInstance.post("/api/exam", formData);
         this.exam = data;
-        
       } catch (e) {
         console.log("error", e);
       } finally {
@@ -72,11 +71,13 @@ console.log(err);
     async download(){
         try{ const file2= await axiosInstance.get('/api/download');
         const filepath=file2.data;
+        // .const datafile=file2.blob()
         const url= new URL(filepath);
         console.log(url);
         const fileName = url.pathname.split('/').pop();
         console.log(fileName);
-        document.getElementById("link").setAttribute('href',fileName)
+        document.getElementById("link").setAttribute('href','ExamDocument.docx')
+        this.showlink=true;
         console.log(file2)
     }catch{
 console.log(err);
@@ -103,6 +104,7 @@ console.log(err);
     },
     uploadFile(event) {
       this.uploadefile = event.target.files[0];
+      console.log(this.uploadefile);
       this.filename=event.target.files[0].name;
       this.uploaded = true;
     },
@@ -214,7 +216,8 @@ console.log(err);
     </div>
   </div>
   <div class="export_box">
-    <button @click="Export" >Export</button><button @click="download">Download</button><a id="link" download>link</a>
+    <button @click="Export" class="export" >Export</button><button @click="download" class="download">Download</button><a id="link" v-show="showlink" download>link</a>
+
   </div>
 </template>
 
@@ -599,5 +602,35 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 1rem;
   margin: auto;
   background-color: #f4f3f4;
+}
+.export_box{
+    width: 100vw;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    gap: 20px;
+    padding-bottom: 40px;
+}
+.export , .download{
+    color: white;
+            outline: none;
+            border: none;
+            margin-top: 20px;
+            display: flex;
+padding: 11px 46px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+            border-radius: 40px;
+background:  #6362E3;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+color:  #F4F3F4;
+font-family: "Montserrat", sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
 }
 </style>

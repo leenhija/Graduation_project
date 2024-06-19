@@ -22,10 +22,24 @@
 <p class="p1">Drafts</p>
 <p class="p2">All your drafts and materials will be saved here</p>
 </div>
+<div>
+    <div v-for="(exam, examIndex) in exams" :key="examIndex" class="examsBox">
+      <h2 class="examName">{{ exam.name }}</h2>
+      <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex" >
+        <h3>{{ question.question }}</h3>
+        <ul>
+          <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
+            {{ answer.answer }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 </template>
 <script>
+import axiosInstance from '@/axios';
 import navigation_bar from '@/components/navigation_bar.vue';
  const jwtToken = localStorage.getItem('token');
 import { userStore } from '@/stores/user';
@@ -40,23 +54,38 @@ return{
     profile_pic:'',
     headline:'',
     country:'',
-    country_filled:false
+    country_filled:false,
+    exams:null,
 }
 },
 methods:{
     async print_userEmail(){
-    this.username=userStore?.user?.firstName;
-     this.profile_pic=userStore?.user?.email.substring(0,2).toUpperCase();
-     this.headline=userStore?.user?.headline;
-     this.country=userStore?.user?.country;
+    this.username=userStore().user?.firstName;
+     this.profile_pic=userStore().user?.email.substring(0,2).toUpperCase();
+     this.headline=userStore().user?.headline;
+     this.country=userStore().user?.country;
      if(this.country!="")
      this.country_filled=true;
     else
     this.country_filled=false;
-   }
+   },
+   async getdrafts(){
+    try{
+        const UserId=userStore().user?.id;
+        console.log(userStore().user?.id);
+     const draft= await axiosInstance.get(`/api/exam/getDraft/${UserId}`);
+     console.log(draft.data.exams)
+     this.exams=draft.data.exams;
+
+    }catch{
+console.log(err);
+    }
+   },
 },
 mounted(){
     this.print_userEmail();
+     this.getdrafts();
+     console.log(this.names)
 }
 }
 </script>
@@ -156,20 +185,25 @@ background: #393939;
 }
 .drafts{
     width: 1200px;
-    height: 700px;
+    /* height: 700px; */
     display: flex;
     flex-direction: column;
     margin-top: 30px;
     border-radius: 37px 37px 37px 37px;
 background: #EAE9EA;
+font-family: "Montserrat", sans-serif;
+
 box-shadow: 0px 30px 100px 10px rgba(0, 0, 0, 0.25);
 justify-content: flex-start;
+overflow-y: inherit;
+padding: 50px;
 }
 .drafts .title{
 display: flex;
 flex-direction: column;
 margin-left: 30px;
 margin-top: 30px;
+margin-bottom: 50px;
 }
 .drafts .title .p1{
     color:  #393939;
@@ -186,5 +220,26 @@ font-size: 20px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+}
+.examsBox{
+    margin-left: 30px;
+    border: #393939 5px solid;
+    margin: 30px;
+    padding: 50px;
+    border-radius: 15px;
+}
+.examName{
+    color: #6362E3;
+    font-family: "Montserrat", sans-serif;
+font-size: 30px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+.answers{
+    list-style: none;
+    padding: 5px;
+}
+.exam{
 }
 </style>
