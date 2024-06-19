@@ -1,43 +1,3 @@
-<template>
-<navigation_bar></navigation_bar>
-<div class="profile">
-<div class="info">
-    <div class="info1">
-    <div class="profile_pic_border" >
-    <div class="profile_pic">{{ profile_pic }}</div>
-  </div>
-  <div class="uasername_and_headline">
-  <div class="username">{{username}}</div>
-  <div class="headline">{{ headline }}</div>
-</div>
-  </div>
-  <div class="info2">
-   <img src="../assets/location.svg" v-show="country_filled">
-   <div class="countery">{{ country }}</div>
-  </div>
-</div>
-<div class="line"></div>
-<div class="drafts">
-<div class="title">
-<p class="p1">Drafts</p>
-<p class="p2">All your drafts and materials will be saved here</p>
-</div>
-<div>
-    <div v-for="(exam, examIndex) in exams" :key="examIndex" class="examsBox">
-      <h2 class="examName">{{ exam.name }}</h2>
-      <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex" >
-        <h3>{{ question.question }}</h3>
-        <ul>
-          <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
-            {{ answer.answer }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</template>
 <script>
 import axiosInstance from '@/axios';
 import navigation_bar from '@/components/navigation_bar.vue';
@@ -72,9 +32,7 @@ methods:{
    async getdrafts(){
     try{
         const UserId=userStore().user?.id;
-        console.log(userStore().user?.id);
      const draft= await axiosInstance.get(`/api/exam/getDraft/${UserId}`);
-     console.log(draft.data.exams)
      this.exams=draft.data.exams;
 
     }catch{
@@ -85,10 +43,49 @@ console.log(err);
 mounted(){
     this.print_userEmail();
      this.getdrafts();
-     console.log(this.names)
 }
 }
 </script>
+<template>
+    <navigation_bar></navigation_bar>
+    <div class="profile">
+    <div class="info">
+        <div class="info1">
+        <div class="profile_pic_border" >
+        <div class="profile_pic">{{ profile_pic }}</div>
+      </div>
+      <div class="uasername_and_headline">
+      <div class="username">{{username}}</div>
+      <div class="headline">{{ headline }}</div>
+    </div>
+      </div>
+      <div class="info2">
+       <img src="../assets/location.svg" v-show="country_filled">
+       <div class="countery">{{ country }}</div>
+      </div>
+    </div>
+    <div class="line"></div>
+    <div class="drafts">
+    <div class="title">
+    <p class="p1">Drafts</p>
+    <p class="p2">All your drafts and materials will be saved here</p>
+    </div>
+    <div>
+        <div v-for="(exam, examIndex) in exams" :key="examIndex" class="examsBox">
+          <h2 class="examName">{{ exam.name }}</h2>
+          <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex" >
+            <h3>{{ question.question }}</h3>
+            <ul>
+              <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
+                {{ answer.answer }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </template>
 <style>
 .profile{
     display: flex;
@@ -240,6 +237,5 @@ line-height: normal;
     list-style: none;
     padding: 5px;
 }
-.exam{
-}
+
 </style>
