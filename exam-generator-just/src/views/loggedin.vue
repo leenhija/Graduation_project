@@ -9,7 +9,7 @@
     <!-- <i class="fa-thin fa-house"></i> -->
     <button class="Home"  id="Home" @click="Home()" v-show="home">Home</button>
 <div class="main_border Home_icon"  id="Home_icon" v-show="home_icon"><div class="home_border"><img src="../assets/Home.svg" class="icon">   </div> </div>
-<button class="About" @click="About()" id="About" v-show="about">About</button>
+<button class="About" @click="About()" id="About" v-show="about" ><a href="#AboutUs">About</a></button>
 <div class="main_border About_icon" id="About_icon" v-show="about_icon"><div class="home_border"><img src="../assets/About.svg" class="icon">   </div> </div>
 <button class="Contact" id="Contact" @click="Contact()" v-show="contact">Contact</button>
 <div class="main_border Contact_icon" id="Contact_icon" v-show="contact_icon"><div class="home_border"><img src="../assets/Contact.svg" class="icon">   </div> </div>
@@ -51,6 +51,7 @@
 </div>
 </div>
 <get_started></get_started>
+<About_us id="AboutUs"></About_us>
 <features></features>
   <footer_bar></footer_bar>
 </template>
@@ -61,6 +62,7 @@ import footer_bar from '../components/footer_bar.vue'
 import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 import {useDark,useToggle } from '@vueuse/core';
 import { userStore } from '@/stores/user';
+import About_us from '@/components/About_us.vue';
 const isDark=useDark();
 const toggleDark=useToggle(isDark);
 const store = userStore();
@@ -69,7 +71,8 @@ export default{
   components:{
     get_started:get_started,
    features:features,
-   footer_bar:footer_bar
+   footer_bar:footer_bar,
+   About_us:About_us
   }
   ,data(){
     return{
@@ -281,6 +284,10 @@ background-color: #D9D9D9;
 }
 .About{
 background-color: #D9D9D9;
+}
+.About a{
+text-decoration: none;
+color: black;
 }
 .Contact{
   border: none;

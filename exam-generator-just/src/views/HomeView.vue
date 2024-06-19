@@ -1,6 +1,7 @@
 <template>
 <generation_bar></generation_bar>
 <get_started></get_started>
+<About_us></About_us>
 <features></features>
 <footer_bar></footer_bar>
 </template>
@@ -9,12 +10,14 @@ import generation_bar from '../components/generation_bar.vue'
 import get_started from '../components/get_started.vue'
 import  features  from '../components/features.vue'
 import footer_bar from '../components/footer_bar.vue'
+import About_us from '../components/About_us.vue'
 export default{
   components:{
    generation_bar:generation_bar,
    get_started:get_started,
    features:features,
-   footer_bar:footer_bar
+   footer_bar:footer_bar,
+   About_us:About_us
   },
   
   }

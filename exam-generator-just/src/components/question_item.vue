@@ -8,10 +8,7 @@ import { toRef } from 'vue';
 const props = defineProps({
     exam:Object
 });
-
 const exam = toRef(props,'exam');
-
-
 const save=async()=>{
     console.log(exam.value) //question 
     const id=exam.value.id;

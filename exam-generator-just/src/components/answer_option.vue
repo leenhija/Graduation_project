@@ -36,7 +36,7 @@ const answerItem = toRef(props,'optionValue')
             border:1px solid #e3e3e3;
 
             &.active{
-                background-color: blue;
+                background-color:#6362E3;
             }
         }
         &-input{

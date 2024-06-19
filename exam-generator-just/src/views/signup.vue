@@ -18,7 +18,6 @@
             v-model="firstName"
             required
             @keyup.enter="focusNextInput($event, 'phone')"
-            @input="validateUsername"
           />
           <small id="username-error" v-show="username_rules"
             >your user name should consist of at least 6 characters</small
@@ -33,7 +32,6 @@
             v-model="lastName"
             required
             @keyup.enter="focusNextInput($event, 'phone')"
-            @input="validateUsername"
           />
           <small id="username-error" v-show="username_rules"
             >your user name should consist of at least 6 characters</small
@@ -61,6 +59,7 @@
             autocomplete="off"
             placeholder="Email Address"
             v-model="email"
+            @input="validateEmail"
              required
           />
           <small id="email-error" v-show="email_rules"
@@ -194,16 +193,6 @@ validateEmail() {
         this.email_rules=true;
     }
     },
-    validateUsername(){
-      if(this.firstName.length<6){
-        document.getElementById("firstName").setAttribute("style","border-color: rgb(232, 93, 93)");
-          this.username_rules=true;
-      }
-      else{
-        document.getElementById("firstName").setAttribute("style","border-color: rgb(76, 207, 76)");
-        this.username_rules=false;
-      }
-    },
     validatephone(){
       this.handelphone();
       if(this.phone.length==10 && this.phone.substring(0,1)=='0'){
@@ -249,7 +238,7 @@ validateEmail() {
             }
             if(this.has_minimum_lenth==true && this.has_number==true && this.has_lowercase==true && this.has_uppercase==true && this.has_special==true){
               document.getElementById("password").setAttribute("style","border-color: rgb(76, 207, 76)");
-              document.getElementById("signup_container").setAttribute("style","height:500px");
+              document.getElementById("signup_container").setAttribute("style","height:600px");
               this.show_password_rules=false;
             }
             else{
@@ -259,7 +248,7 @@ validateEmail() {
         },
         condition(){
           this.show_password_rules=true;
-          document.getElementById("signup_container").setAttribute("style","height:600px");
+          document.getElementById("signup_container").setAttribute("style","height:650px");
         },
         handelphone(){
         this.phone=this.phone.replace(/\D/g,'');
@@ -322,7 +311,7 @@ validateEmail() {
   font-size: 30px;
   font-weight: 500;
   font-style: normal;
-  margin-top: -30px;
+  margin-top: -60px;
   margin-bottom: 30px;
   color: #4b4b4b;
   -webkit-text-stroke-width: 1;

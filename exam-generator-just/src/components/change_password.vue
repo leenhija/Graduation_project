@@ -34,13 +34,12 @@ import { userStore } from '@/stores/user';
 const old_password = ref('');
 const new_password = ref('');
 const changes = ref(false);
-const user_email=ref('');
+const user_id=ref('');
 async function change_password() {
   try {
-    const response = await axiosInstance.put('change_password', {
-      oldpassword: old_password.value,
-      newpassword: new_password.value,
-      email: user_email.value,
+    const response = await axiosInstance.patch('/api/auth/ChangePassword', {
+      UserId:user_id.value,
+      NewPassword: new_password.value,
     });
     changes.value = true;
   } catch {
@@ -48,7 +47,7 @@ async function change_password() {
   }
 }
 onMounted(() => {
-   user_email.value=userStore().user.email;
+   user_id.value=userStore().user.id;
 
  });
 </script>

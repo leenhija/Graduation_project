@@ -7,7 +7,7 @@ import QuestionItem from "@/components/question_item.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { faL } from "@fortawesome/free-solid-svg-icons";
-
+import { userStore } from '@/stores/user';
 export default {
   components: {
     navigation_bar: navigation_bar,
@@ -30,28 +30,58 @@ export default {
       newtext: "",
       editor: null,
       btnLoading: false,
-      filename:''
+      filename:'',
+     
     };
   },
   methods: {
-    async test() {
+    async generateExam() {
       try {
         this.btnLoading = true;
+        console.log(this.numOfOPtions);
         const formData = new FormData();
         formData.append("file", this.uploadefile);
         formData.append("examMaterial", this.text);
         formData.append("easyMcq", this.easy);
         formData.append("midMcq", this.mid);
-        formData.append("hardMcq", this.sendFilharde);
+        formData.append("hardMcq", this.hard);
         formData.append("optionNum", this.numOfOPtions);
         const { data } = await axiosInstance.post("/api/exam", formData);
         this.exam = data;
-        console.log(data);
+        
       } catch (e) {
         console.log("error", e);
       } finally {
         this.btnLoading = false;
+        const targetElement = document.getElementById('container');
+        if(targetElement){
+        targetElement.scrollIntoView({ behavior: 'smooth' });}
       }
+    },
+   
+    async Export(){
+       try{ const {file}= await axiosInstance.post('/api/export',{
+            ExamID:this.exam.id
+        });
+        console.log("worked")
+    }catch{
+console.log(err);
+        }
+
+    },
+    async download(){
+        try{ const file2= await axiosInstance.get('/api/download');
+        const filepath=file2.data;
+        const url= new URL(filepath);
+        console.log(url);
+        const fileName = url.pathname.split('/').pop();
+        console.log(fileName);
+        document.getElementById("link").setAttribute('href',fileName)
+        console.log(file2)
+    }catch{
+console.log(err);
+        }
+
     },
     maximize1() {
       this.easy += 1;
@@ -91,7 +121,7 @@ export default {
 
 <template>
   <navigation_bar></navigation_bar>
-  <form class="generation" @submit.prevent="test">
+  <form class="generation" @submit.prevent="generateExam">
     <div class="material">
       <div class="uploadFile">
         <p class="uploadtext">Upload file now</p>
@@ -172,16 +202,19 @@ export default {
       </div>
 
       <div class="generate_button_step2">
-        <button :disabled="btnLoading">
-          {{ btnLoading ? "Loading..." : "Generate" }}
-        </button>
+        <button :disabled="btnLoading" >
+          {{ btnLoading ? "Generating..." : "Generate" }}
+       </button>
       </div>
     </div>
   </form>
-  <div class="container" v-if="exam?.questions">
+  <div class="container" v-if="exam?.questions" id="container">
     <div v-for="data in exam.questions" class="mcq">
       <QuestionItem :exam="data" />
     </div>
+  </div>
+  <div class="export_box">
+    <button @click="Export" >Export</button><button @click="download">Download</button><a id="link" download>link</a>
   </div>
 </template>
 
@@ -562,8 +595,9 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 100vw;
   padding: 1rem;
   margin: auto;
+  background-color: #f4f3f4;
 }
 </style>
