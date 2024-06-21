@@ -16,6 +16,8 @@ return{
     country:'',
     country_filled:false,
     exams:null,
+    showExam:false,
+    selectedExam: null 
 }
 },
 methods:{
@@ -39,6 +41,14 @@ methods:{
 console.log(err);
     }
    },
+   showTheExam(examIndex) {
+      if (this.selectedExam === examIndex) {
+        this.selectedExam = null; // Deselect if the same exam is clicked
+      } else {
+        this.selectedExam = examIndex; // Select the clicked exam
+      }
+    },
+  
 },
 mounted(){
     this.print_userEmail();
@@ -71,18 +81,20 @@ mounted(){
     <p class="p2">All your drafts and materials will be saved here</p>
     </div>
     <div>
-        <div v-for="(exam, examIndex) in exams" :key="examIndex" class="examsBox">
-          <h2 class="examName">{{ exam.name }}</h2>
-          <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex" >
-            <h3>{{ question.question }}</h3>
-            <ul>
-              <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
-                {{ answer.answer }}
-              </li>
-            </ul>
-          </div>
+    <div v-for="(exam, examIndex) in exams" :key="examIndex" class="examsBox" @click="showTheExam(examIndex)">
+      <h2 class="examName">{{ exam.name }}</h2>
+      <div v-if="selectedExam === examIndex">
+        <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex">
+          <h3>{{ question.question }}</h3>
+          <ul>
+            <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
+              {{ answer.answer }}
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
+  </div>
     </div>
     </div>
     </template>

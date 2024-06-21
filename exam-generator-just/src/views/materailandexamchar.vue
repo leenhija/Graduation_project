@@ -8,6 +8,8 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { faL } from "@fortawesome/free-solid-svg-icons";
 import { userStore } from '@/stores/user';
+import { ref } from "vue";
+// import htmlDocx from 'html-docx';
 export default {
   components: {
     navigation_bar: navigation_bar,
@@ -31,7 +33,11 @@ export default {
       editor: null,
       btnLoading: false,
       filename:'',
-     showlink:false
+     showlink:false,
+     fileUrl: '',
+      fileName: '',
+      downloadUrl: ''
+
     };
   },
   methods: {
@@ -46,7 +52,14 @@ export default {
         formData.append("midMcq", this.mid);
         formData.append("hardMcq", this.hard);
         formData.append("optionNum", this.numOfOPtions);
-        const { data } = await axiosInstance.post("/api/exam", formData);
+        const { data } = await axiosInstance.post("/api/exam", {
+            file:this.uploadefile,
+            examMaterial:this.text,
+            easyMcq:this.easy,
+            midMcq:this.mid,
+            hardMcq:this.hard,
+            optionNum:this.numOfOPtions
+        });
         this.exam = data;
       } catch (e) {
         console.log("error", e);
@@ -71,19 +84,105 @@ console.log(err);
     async download(){
         try{ const file2= await axiosInstance.get('/api/download');
         const filepath=file2.data;
-        // .const datafile=file2.blob()
         const url= new URL(filepath);
-        console.log(url);
         const fileName = url.pathname.split('/').pop();
+        const pathWithForwardSlashes = filepath.replace(/\\/g, '/');
+        const path='C:/fakepath/test.pdf'
+        console.log(pathWithForwardSlashes);
         console.log(fileName);
-        document.getElementById("link").setAttribute('href','ExamDocument.docx')
+        document.getElementById("link").setAttribute('href',fileName);
+        document.getElementById("link").setAttribute('download',fileName);
         this.showlink=true;
-        console.log(file2)
     }catch{
 console.log(err);
         }
 
     },
+    // convertToJson() {
+    //   // Construct HTML content from JSON
+    //   const htmlContent = `
+    //     <html>
+    //       <body>
+    //         <h1>leen</h1>
+    //         <p>miran</p>
+    //       </body>
+    //     </html>
+    //   `;
+
+    //   // Convert HTML to .docx file
+    //   const docx = htmlDocx.asBlob(htmlContent);
+
+    //   // Create a downloadable link
+    //   const url = window.URL.createObjectURL(docx);
+    //   const a = document.createElement('a');
+    //   a.style.display = 'none';
+    //   a.href = url;
+    //   a.download = 'document.docx';
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   window.URL.revokeObjectURL(url);
+    // },
+
+// async download() {
+//       try {
+//         // Fetch the file as a blob
+//         const response = await axiosInstance.get('/api/download', {
+//           responseType: 'blob'
+//         });
+
+//         // Check for the Content-Disposition header to get the filename
+//         const contentDisposition = response.headers['content-disposition'];
+//         let fileName = 'downloadedFile.pdf';
+//         if (contentDisposition) {
+//           const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+//           if (fileNameMatch.length === 2) {
+//             fileName = fileNameMatch[1];
+//           }
+//         }
+
+//         // Create a blob from the response data
+//         const blob = new Blob([response.data], { type: response.data.type });
+//         const url = URL.createObjectURL(blob);
+
+//         // Create a link element, set its href and download attributes, and click it
+//         const link = document.createElement('a');
+//         link.href = url;
+//         link.setAttribute('download', fileName);
+//         document.body.appendChild(link);
+//         link.click();
+//         document.body.removeChild(link);
+
+//         // Release the object URL
+//         URL.revokeObjectURL(url);
+//       } catch (err) {
+//         console.error('Error downloading the file', err);
+//       }
+//     },
+//     async download() {
+//       try {
+//         const response = await axiosInstance.get('/api/download', {
+//           responseType: 'blob'  // Important for handling binary data
+//         });
+//         const url = window.URL.createObjectURL(new Blob([response.data]));
+//         this.downloadUrl = url;
+//         this.showlink = true;
+//         document.getElementById("link").click();  // Trigger the download automatically
+//       } catch (error) {
+//         console.log(error);
+//     }
+// },
+
+   async shuffle(){
+ try{ 
+    console.log(this.exam.id);
+    const data= await axiosInstance.get('/api/exam/ShuffleExam',{
+    examId:this.exam.id,
+    numOfShuffle:"3"
+  })
+}catch{
+console.log(err);
+  }
+   },
     maximize1() {
       this.easy += 1;
     },
@@ -216,8 +315,12 @@ console.log(err);
     </div>
   </div>
   <div class="export_box">
-    <button @click="Export" class="export" >Export</button><button @click="download" class="download">Download</button><a id="link" v-show="showlink" download>link</a>
-
+    <button @click="Export" class="export" >Export</button>
+    <button @click="download" class="download">Download</button>
+    <!-- <button @click="shuffle" class="convertToJson">Shuffle</button> -->
+    <!-- <a id="link" v-show="showlink" :href="fileUrl" :download="fileName" ref="link" >link</a> -->
+    <a id=link download>link</a>
+    <!-- <a id="link" v-show="showlink" :href="downloadUrl" download>link</a> -->
   </div>
 </template>
 

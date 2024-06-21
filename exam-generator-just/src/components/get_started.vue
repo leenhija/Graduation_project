@@ -3,7 +3,7 @@
 
 <div class="promo">
   <p>Exams Made Easy</p>
-  <p class="changed_promo"><span class="promo_number">10x</span> <span class="promo_word" id="promo_word" >{{word}}</span> Customization</p>
+  <p class="changed_promo"><span class="promo_number">10x</span> <span class="promo_word" id="promo_word" >{{currentWord}}</span> Customization</p>
 <button class="start_button" id="start_button" @click="navigate_to_signup()">Get Started</button>
 </div>
 <div class="text">
@@ -15,27 +15,28 @@
 export default{
 data(){
     return{
-    word:'Faster',
-    intervalId:null
+   
+    words: ["Faster", "Easier", "Efficient"],
+      currentIndex: 0,
+      currentWord: ""
     };
 },
 methods:{
-    change_text(){
-  var wordes=["Faster","Easier","Efficient"];
-  var random_num=Math.floor(Math.random() * 3);
-  this.word=wordes[random_num];
- 
 
-},
-startPolling() {
-      this.intervalId = setInterval(this.change_text, 1000); // Call every 2 seconds
+startLooping() {
+      this.currentWord = this.words[this.currentIndex];
+      setInterval(() => {
+        this.currentIndex = (this.currentIndex + 1) % this.words.length;
+        this.currentWord = this.words[this.currentIndex];
+      }, 1000); // Change word every 1 second
     },
     navigate_to_signup(){
       this.$router.push({name:'signup'});
     },
 },
 mounted(){
-    this.startPolling();
+    this.startLooping();
+
 }
 }
 </script>

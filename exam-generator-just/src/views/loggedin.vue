@@ -31,7 +31,7 @@
     <div class="profile_pic">{{ profile_pic }}</div>
   </div><div class="username">{{username}}</div></li>
       <li class="your_profile gotoprofile" @click="$router.push({name:'profile'})"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
-      <li class="your_profile"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
+      <li class="your_profile" @click="gotoProjects"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
       <li class="your_profile" @click="gotoprofile()"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
       <li class="your_profile"><img src="../assets/dark_mode_icon.svg" class="icon_hover"> Dark Mode</li>
       <li class="your_profile"><img src="../assets/privacy_policy_icon.svg" class="icon_hover"> Privacy Policy</li>
@@ -53,16 +53,17 @@
 <get_started></get_started>
 <About_us id="AboutUs"></About_us>
 <features></features>
+<ContactUs></ContactUs>
   <footer_bar></footer_bar>
 </template>
 <script>
   import get_started from '../components/get_started.vue'
 import  features  from '../components/features.vue'
 import footer_bar from '../components/footer_bar.vue'
-import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 import {useDark,useToggle } from '@vueuse/core';
 import { userStore } from '@/stores/user';
 import About_us from '@/components/About_us.vue';
+import ContactUs from '@/components/contactUs.vue'
 const isDark=useDark();
 const toggleDark=useToggle(isDark);
 const store = userStore();
@@ -72,7 +73,8 @@ export default{
     get_started:get_started,
    features:features,
    footer_bar:footer_bar,
-   About_us:About_us
+   About_us:About_us,
+   ContactUs:ContactUs
   }
   ,data(){
     return{
@@ -143,6 +145,10 @@ hide(e){
 gotoprofile()
 {
   this.$router.push({name:'settings',reload:true});
+},
+gotoProjects()
+{
+  this.$router.push({name:'profile',reload:true});
 }
     }
 ,

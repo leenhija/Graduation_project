@@ -14,8 +14,9 @@ const save=async()=>{
     const id=exam.value.id;
     console.log(exam.value);
     // console.log(id2);
+    const qustionWithoutTags = exam.value.question.replace(/<\/?p>/g, '');
        const response=axiosInstance.patch(`/api/questions/${id}`,{
-        question:exam.value.question
+        question:qustionWithoutTags
    })
 exam.value.answers.forEach((answerObj, index) => {
 const response2=axiosInstance.patch(`/api/answers/${answerObj.id}`,{

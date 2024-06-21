@@ -66,7 +66,7 @@
             <img src="../assets/user_icon.svg" class="icon_hover" /> Your
             Profile
           </li>
-          <li class="your_profile">
+          <li class="your_profile" @click="gotoProjects">
             <img src="../assets/your_project_icon.svg" class="icon_hover" />
             Your Projects
           </li>
@@ -160,6 +160,10 @@ hide(e){
 gotoprofile()
 {
   this.$router.push({name:'settings',reload:true});
+},
+gotoProjects(){
+  this.$router.push({name:'profile',reload:true});
+
 },
 list_style(){
     return{
