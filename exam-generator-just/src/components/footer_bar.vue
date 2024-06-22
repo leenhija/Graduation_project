@@ -3,22 +3,22 @@
 <div class="links1">
  <div class="links1_list"><ul>
     <p>Help</p>
-    <li>About Us</li>
-    <li>Contact Us</li>
-    <li>Privacy Policy</li>
+    <li class="hover_text">About Us</li>
+    <li class="hover_text">Contact Us</li>
+    <li class="hover_text">Privacy Policy</li>
 
   </ul>
   <ul>
     <p>Rapidly</p>
-    <li>Features</li>
-    <li>Social Media</li>
-    <li>How it works?</li>
+    <li class="hover_text">Features</li>
+    <li class="hover_text">Social Media</li>
+    <li class="hover_text">How it works?</li>
 
   </ul>
   <ul>
     <p>Support Us</p>
-    <li>Team</li>
-    <li>Donations</li>
+    <li class="hover_text">Team</li>
+    <li class="hover_text">Donations</li>
     <li class="invisable_li">invisable</li>
   </ul></div>
  <div class="iphone"><img src="../assets/iphone.svg"></div> 
@@ -45,7 +45,7 @@
 <style>
 .footer{
   width: 100vw;
-height:450px;
+height:550px;
 background-color: #F4F3F4; 
 display: flex;
 flex-direction: column;
@@ -117,15 +117,16 @@ margin:auto;
   width: 1370px;
 height: 1px;
 background: #616161;
-
+margin-top: 20px;
 }
 .footer .links2{
 display: flex;
 flex-direction: row;
-justify-content: center;
-gap: 900px;
+justify-content: space-between;
+align-items: center;
+/* gap: 900px; */
 width: 100vw;
-height: 80px;
+height: 180px;
 }
 .footer .links2 .info{
   display: inline-flex;
@@ -168,7 +169,13 @@ width: 208px;
 height: 50px;
 align-items:flex-end;
 padding-top: 10px;
-padding-right: 50px;
+padding-right: 80px;
 gap: 20px;
+}
+.hover_text:hover{
+  color: #6362E3;
+  cursor: grab;
+text-decoration: underline;
+text-decoration-color: #6362E3;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
 <div class="featurs">
+ 
   <div class="features_title_box"><p class="features_title">Features</p></div>
 <div class="gellary-wrap">
   <img src="../assets/back.svg" id="backBtn"  @click.prevent="backBtn">

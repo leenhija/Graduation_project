@@ -7,12 +7,9 @@
   </div>
   <div class="pages">
     <!-- <i class="fa-thin fa-house"></i> -->
-    <button class="Home"  id="Home" @click="Home()" v-show="home">Home</button>
-<div class="main_border Home_icon"  id="Home_icon" v-show="home_icon"><div class="home_border"><img src="../assets/Home.svg" class="icon">   </div> </div>
-<button class="About" @click="About()" id="About" v-show="about" ><a href="#AboutUs">About</a></button>
-<div class="main_border About_icon" id="About_icon" v-show="about_icon"><div class="home_border"><img src="../assets/About.svg" class="icon">   </div> </div>
-<button class="Contact" id="Contact" @click="Contact()" v-show="contact">Contact</button>
-<div class="main_border Contact_icon" id="Contact_icon" v-show="contact_icon"><div class="home_border"><img src="../assets/Contact.svg" class="icon">   </div> </div>
+    <button class="Home"  id="Home"  @click="gotoHome()">Home</button>
+<button class="About" id="About"  ><a href="#AboutUs">About</a></button>
+<button class="Contact" id="Contact" ><a href="#ContactUs">Contact</a></button>
    
   </div>
   <div class="profile" @mouseleave="hide()">
@@ -27,12 +24,12 @@
   <div class="drop_down_list" v-show="show2">
     <ul >
       <li class="pic_and_username">
-  <div class="profile_pic_border" @click="gotoprofile()">
+  <div class="profile_pic_border" @click="$router.push({name:'profile'})">
     <div class="profile_pic">{{ profile_pic }}</div>
   </div><div class="username">{{username}}</div></li>
       <li class="your_profile gotoprofile" @click="$router.push({name:'profile'})"><img src="../assets/user_icon.svg" class="icon_hover"> Your Profile</li>
       <li class="your_profile" @click="gotoProjects"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
-      <li class="your_profile" @click="gotoprofile()"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
+      <li class="your_profile" @click="$router.push({name:'settings'})"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
       <li class="your_profile"><img src="../assets/dark_mode_icon.svg" class="icon_hover"> Dark Mode</li>
       <li class="your_profile"><img src="../assets/privacy_policy_icon.svg" class="icon_hover"> Privacy Policy</li>
       <li class="your_profile support_us"><img src="../assets/support_icon.svg" class="icon_hover"> Support Us</li>
@@ -53,7 +50,7 @@
 <get_started></get_started>
 <About_us id="AboutUs"></About_us>
 <features></features>
-<ContactUs></ContactUs>
+<ContactUs id="ContactUs"></ContactUs>
   <footer_bar></footer_bar>
 </template>
 <script>
@@ -85,12 +82,6 @@ export default{
     username:'',
     show1:true,
     show2:false,
-    home:false,
-     home_icon:true,
-     about:true,
-     about_icon:false,
-     contact:true,
-     contact_icon:false,
      isclicked:false
     };
   }
@@ -100,32 +91,6 @@ export default{
     this.username=store.user.firstName;
      this.profile_pic=store.user.email.substring(0,2).toUpperCase();
    }
- , 
- About(){
-  this.home_icon=false;
-   this.home=true;
-   this.about_icon=true;
-   this.about=false;
-   this.contact=true;
-    this.contact_icon=false;
-},
-Home(){
-  this.home=false;
-    this.home_icon=true;
-    this.about=true;
-    this.about_icon=false;
-    this.contact=true;
-    this.contact_icon=false;
-}
-,
-Contact(){
-  this.home_icon=false;
-   this.home=true;
-   this.about_icon=false;
-   this.about=true;
-   this.contact=false;
-    this.contact_icon=true;
-}
 ,
 signout(){
 localStorage.clear()
@@ -149,6 +114,9 @@ gotoprofile()
 gotoProjects()
 {
   this.$router.push({name:'profile',reload:true});
+},
+gotoHome(){
+  this.$router.push({name:'loggedin',reload:true});
 }
     }
 ,
@@ -196,7 +164,7 @@ body{
   color: white;
   font-family: "Roboto",sans-serif;
   border-radius: 0px 0px 30px 30px;
-  border-bottom: solid 10px rgba(227, 239, 242, 0.79);
+  border: none;
   margin-right: 30px;
   margin-left: 20px;
   overflow: visible;
@@ -286,6 +254,7 @@ height: 18px;
 
 .Home{
   border: none;
+  color:#434343;
 background-color: #D9D9D9;
 }
 .About{
@@ -293,12 +262,15 @@ background-color: #D9D9D9;
 }
 .About a{
 text-decoration: none;
-color: black;
+color:#434343;
 }
 .Contact{
   border: none;
-
 background-color: #D9D9D9;
+}
+.Contact a{
+text-decoration: none;
+color:#434343;
 }
 .profile .drop_down_list{
 width: 200px;

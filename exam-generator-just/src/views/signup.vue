@@ -174,9 +174,7 @@ async signup(){
         console.log(response);
         // Reset form fields
         // Redirect or show success message
-        this.$router.push('/signin');
-        this.verify();
-
+        this.$router.push({name:'login'});
       } catch (error) {
 console.log(error);
         this.email_rules=true;
@@ -253,11 +251,7 @@ validateEmail() {
         handelphone(){
         this.phone=this.phone.replace(/\D/g,'');
         },
-        async verify(){
-          const verify= await axiosInstance.post(`send`,{
-          email:this.email
-        })
-        }
+    
 }
 };
 </script>

@@ -7,13 +7,9 @@
   </div>
   <div class="pages">
     <!-- <i class="fa-thin fa-house"></i> -->
-    <button class="Home"  id="Home" @click="Home()" v-show="home">Home</button>
-<div class="main_border Home_icon"  id="Home_icon" v-show="home_icon"><div class="home_border"><img src="../assets/Home.svg" class="icon">   </div> </div>
-<button class="About" @click="About()" id="About" v-show="about"><a href="#AboutUs">About</a></button>
-<div class="main_border About_icon" id="About_icon" v-show="about_icon"><div class="home_border"><img src="../assets/About.svg" class="icon">   </div> </div>
-<button class="Contact" id="Contact" @click="Contact()" v-show="contact">Contact</button>
-<div class="main_border Contact_icon" id="Contact_icon" v-show="contact_icon"><div class="home_border"><img src="../assets/Contact.svg" class="icon">   </div> </div>
-    
+    <button class="Home"  id="Home">Home</button>
+<button class="About"  id="About"><a href="#AboutUs">About</a></button>
+<button class="Contact" id="Contact" >Contact</button>    
   </div>
 <div class="login_or_signup"><router-link :to="{name:'login'}"><button class="login">login</button></router-link>
 <router-link :to="{name:'signup'}"><button class="signup">Sign Up</button></router-link></div>
@@ -31,50 +27,7 @@
 
 </template>
 <script>
-import { faL } from '@fortawesome/free-solid-svg-icons';
- 
-export default{
-  data(){
-    return{
-     home:false,
-     home_icon:true,
-     about:true,
-     about_icon:false,
-     contact:true,
-     contact_icon:false
-    }
-  },
-  methods:{
-   Home(){
-    this.home=false;
-    this.home_icon=true;
-    this.about=true;
-    this.about_icon=false;
-    this.contact=true;
-    this.contact_icon=false;
-   },
-   About(){
-   this.home_icon=false;
-   this.home=true;
-   this.about_icon=true;
-   this.about=false;
-   this.contact=true;
-    this.contact_icon=false;
-},
 
-Contact(){
-  this.home_icon=false;
-   this.home=true;
-   this.about_icon=false;
-   this.about=true;
-   this.contact=false;
-    this.contact_icon=true;
-},
-   async test(){
-
-  }
-  }
-}
 </script>
 <style>
 body{
@@ -91,11 +44,9 @@ body{
   .navigation .logo{
     font-family: "Twinkle Star", cursive;
     font-size: 50px;
-    font-weight: 400;
-    font-style: normal;
+    font-weight: 900;
+    /* font-style: normal; */
     color: white;
-    font-weight: bold;
-    /* padding: 20px; */
     border-color: rgb(232, 93, 93);
   }
 .nav{
@@ -104,19 +55,17 @@ body{
   display: flex;
   flex-direction: row;
    justify-content: space-between; 
-  /* align-items: center; */
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  /* margin-top: -650px; */
+  position: fixed; 
+  top: 0; 
   background-color: #D9D9D9;
-  /* margin-top: -680px; */
   overflow: hidden;
   color: white;
   font-family: "Roboto",sans-serif;
   border-radius: 0px 0px 30px 30px;
-  border-bottom: solid 10px rgba(227, 239, 242, 0.79);
+border: none;
   margin-right: 30px;
   margin-left: 20px;
+  z-index: 999;
 }
 /* .nav h1{
 margin-left: 200px;
@@ -205,10 +154,14 @@ height: 18px;
   /* margin-top: 25px; */
   border: none;
 background-color: #D9D9D9;
+font-family: "Montserrat", sans-serif;
+color:#434343;
 }
 .About{
 border: none;
 background-color: #D9D9D9;
+font-family: "Montserrat", sans-serif;
+color:#434343;
 }
 .About a{
   text-decoration: none;
@@ -216,8 +169,9 @@ background-color: #D9D9D9;
 }
 .Contact{
   border: none;
-
+  font-family: "Montserrat", sans-serif;
 background-color: #D9D9D9;
+color:#434343;
 }
 .brief{
   display: flex;

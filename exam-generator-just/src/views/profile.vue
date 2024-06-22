@@ -46,8 +46,9 @@ console.log(err);
         this.selectedExam = null; // Deselect if the same exam is clicked
       } else {
         this.selectedExam = examIndex; // Select the clicked exam
+
       }
-    },
+    }
   
 },
 mounted(){
@@ -58,7 +59,7 @@ mounted(){
 </script>
 <template>
     <navigation_bar></navigation_bar>
-    <div class="profile">
+    <div class="profile_box">
     <div class="info">
         <div class="info1">
         <div class="profile_pic_border" >
@@ -70,7 +71,6 @@ mounted(){
     </div>
       </div>
       <div class="info2">
-       <img src="../assets/location.svg" v-show="country_filled">
        <div class="countery">{{ country }}</div>
       </div>
     </div>
@@ -85,7 +85,7 @@ mounted(){
       <h2 class="examName">{{ exam.name }}</h2>
       <div v-if="selectedExam === examIndex">
         <div v-for="(question, questionIndex) in exam.questions" :key="questionIndex">
-          <h3>{{ question.question }}</h3>
+          <h3 class="qustion">{{ question.question }}</h3>
           <ul>
             <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
               {{ answer.answer }}
@@ -99,10 +99,12 @@ mounted(){
     </div>
     </template>
 <style>
-.profile{
+.profile_box{
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #F4F3F4;
 }
 .info{
     width: 1370px;
@@ -232,22 +234,27 @@ line-height: normal;
 }
 .examsBox{
     margin-left: 30px;
-    border: #393939 5px solid;
+    /* border: #393939 5px solid; */
     margin: 30px;
-    padding: 50px;
+    padding: 30px;
+    background-color: #C6C6D7;
     border-radius: 15px;
 }
 .examName{
-    color: #6362E3;
+    color: #434343;
     font-family: "Montserrat", sans-serif;
 font-size: 30px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
+margin-bottom: 5px;
 }
 .answers{
     list-style: none;
     padding: 5px;
 }
-
+.qustion{
+    margin-top: 40px;
+    font-weight: 500;
+}
 </style>

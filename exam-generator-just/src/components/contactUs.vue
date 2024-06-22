@@ -14,8 +14,10 @@ display: flex;
 flex-direction: column;
 justify-content: space-between;
 align-items:center;
-gap:10px;
-padding: 15px;
+/* gap:10px; */
+background-color: #F4F3F4;
+padding-top: 60px;
+padding-bottom: 60px;
 }
 .contactUs_box .title{
     color: #6362E3;
@@ -24,9 +26,9 @@ padding: 15px;
 font-family: "Montserrat", sans-serif;
 font-size: 36px;
 font-style: normal;
-font-weight: 500;
+font-weight: 700;
 line-height: normal;
-margin-bottom: -10px;
+margin-bottom: -20px;
 }
 .contactUs_box .emailAdress{
     display: flex;
@@ -35,7 +37,7 @@ margin-bottom: -10px;
     align-items: center;
     justify-content: center;
     margin-top: -10px;
-    color:+ #5F5F5F;
+    color: #5F5F5F;
     font-family: "Montserrat", sans-serif;
     font-size: 24px;
 font-style: normal;

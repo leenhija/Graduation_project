@@ -50,7 +50,7 @@ width: 100vw;
 height: 100vh;
 gap: 70px;
 overflow: hidden;
-
+background-color: #F4F3F4;
 }
 .get_started .text{
 

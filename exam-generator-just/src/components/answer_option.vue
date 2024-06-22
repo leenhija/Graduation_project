@@ -36,7 +36,7 @@ const answerItem = toRef(props,'optionValue')
             border:1px solid #e3e3e3;
 
             &.active{
-                background-color:#6362E3;
+                background-color:rgb(91, 201, 91);
             }
         }
         &-input{
@@ -45,5 +45,10 @@ const answerItem = toRef(props,'optionValue')
             font-size: 14px;
             width: 100%;
         }
+    }
+    .answer-input{
+        border-radius: 15px;
+        border: none;
+        background-color: #e2e2e2;
     }
 </style>

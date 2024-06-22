@@ -10,37 +10,10 @@
     </div>
     <div class="pages">
       <!-- <i class="fa-thin fa-house"></i> -->
-      <button class="Home" id="Home" @click="Home()" v-show="home">Home</button>
-      <div
-        class="main_border Home_icon"
-        @click="Home()"
-        id="Home_icon"
-        v-show="home_icon"
-      >
-        <div class="home_border">
-          <img src="../assets/Home.svg" class="icon" />
-        </div>
-      </div>
-      <button class="About" @click="About()" id="About" v-show="about">
-        About
-      </button>
-      <div class="main_border About_icon" id="About_icon" v-show="about_icon">
-        <div class="home_border">
-          <img src="../assets/About.svg" class="icon" />
-        </div>
-      </div>
-      <button class="Contact" id="Contact" @click="Contact()" v-show="contact">
-        Contact
-      </button>
-      <div
-        class="main_border Contact_icon"
-        id="Contact_icon"
-        v-show="contact_icon"
-      >
-        <div class="home_border">
-          <img src="../assets/Contact.svg" class="icon" />
-        </div>
-      </div>
+      <button class="Home" id="Home" @click="gotoHome()" >Home</button>
+      <button class="About" >About</button>
+      <button class="Contact" id="Contact">Contact</button>
+   
     </div>
     <div class="profile" @mouseleave="hide()">
       <div class="dark_mode_and_profile" v-show="show1">
@@ -70,7 +43,7 @@
             <img src="../assets/your_project_icon.svg" class="icon_hover" />
             Your Projects
           </li>
-          <li class="your_profile" @click="gotoprofile()">
+          <li class="your_profile" @click="$router.push({ name: 'settings' })">
             <img src="../assets/setting_icon.svg" class="icon_hover" /> Settings
           </li>
           <li class="your_profile">
@@ -101,47 +74,13 @@ export default{
     username:'',
     show1:true,
     show2:false,
-    home:false,
-     home_icon:true,
-     about:true,
-     about_icon:false,
-     contact:true,
-     contact_icon:false
         }
     },methods:{
     async print_userEmail(){
 
     this.username=userStore()?.user?.firstName;
      this.profile_pic=userStore().user?.email.substring(0,2).toUpperCase();
-   }
- ,
- About(){
-  this.home_icon=false;
-   this.home=true;
-   this.about_icon=true;
-   this.about=false;
-   this.contact=true;
-    this.contact_icon=false;
-},
-Home(){
-  this.home=false;
-    this.home_icon=true;
-    this.about=true;
-    this.about_icon=false;
-    this.contact=true;
-    this.contact_icon=false;
-    this.$router.push({name:'loggedin',reload:true});
-}
-,
-Contact(){
-  this.home_icon=false;
-   this.home=true;
-   this.about_icon=false;
-   this.about=true;
-   this.contact=false;
-    this.contact_icon=true;
-}
-,
+   },
 signout(){
 localStorage.clear()
 this.$router.push({name:'home',reload:true});
@@ -159,11 +98,14 @@ hide(e){
 ,
 gotoprofile()
 {
-  this.$router.push({name:'settings',reload:true});
+  this.$router.push({name:'profile',reload:true});
 },
 gotoProjects(){
   this.$router.push({name:'profile',reload:true});
 
+},
+gotoHome(){
+  this.$router.push({name:'loggedin',reload:true});
 },
 list_style(){
     return{
@@ -213,11 +155,11 @@ body {
   color: white;
   font-family: "Roboto", sans-serif;
   border-radius: 0px 0px 30px 30px;
-  border-bottom: solid 10px rgba(227, 239, 242, 0.79);
   margin-right: 30px;
   margin-left: 0px;
   overflow: visible;
   z-index: 999;
+  border: none;
 }
 .pages {
   display: flex;
@@ -258,13 +200,18 @@ body {
 .Home {
   border: none;
   background-color: #d9d9d9;
+  font-family: "Montserrat", sans-serif;
+color:#434343;
 }
 .About {
   background-color: #d9d9d9;
+  font-family: "Montserrat", sans-serif;
+color:#434343;
 }
 .Contact {
   border: none;
-
+  font-family: "Montserrat", sans-serif;
+  color:#434343;
   background-color: #d9d9d9;
 }
 .profile .drop_down_list {
@@ -368,8 +315,8 @@ body {
   border-bottom: 2px solid #616161;
 }
 .sign_out {
-  margin-left: 80px;
-  cursor: grab;
+  margin-left: 80px; 
+   cursor: grab;
 }
 .your_profile {
   color: rgba(67, 67, 67, 1);

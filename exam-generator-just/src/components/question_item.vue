@@ -44,7 +44,7 @@ const response2=axiosInstance.patch(`/api/answers/${answerObj.id}`,{
       </template>
     </div>
     <div class="buttons">
-      <button class="btn" @click.prevent="save">Submit</button>
+      <button class="btn" @click.prevent="save">Save</button>
     </div>
   </div>
 </template>
