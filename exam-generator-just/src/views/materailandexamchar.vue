@@ -6,10 +6,7 @@ import navigation_bar from "@/components/navigation_bar.vue";
 import QuestionItem from "@/components/question_item.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import { faL } from "@fortawesome/free-solid-svg-icons";
-import { userStore } from '@/stores/user';
-import { ref } from "vue";
-// import htmlDocx from 'html-docx';
+import { useRouter } from 'vue-router';
 export default {
   components: {
     navigation_bar: navigation_bar,
@@ -32,12 +29,14 @@ export default {
       newtext: "",
       editor: null,
       btnLoading: false,
-      filename:'',
-     showlink:false,
-     fileUrl: '',
-      fileName: '',
-      downloadUrl: ''
-
+      filename: "",
+      showlink: false,
+      fileUrl: "",
+      fileName: "",
+      downloadUrl: "",
+      numOfShuffle:'',
+      exported:false,
+      showExportButton:false
     };
   },
   methods: {
@@ -52,137 +51,47 @@ export default {
         formData.append("midMcq", this.mid);
         formData.append("hardMcq", this.hard);
         formData.append("optionNum", this.numOfOPtions);
-        const { data } = await axiosInstance.post("/api/exam", {
-            file:this.uploadefile,
-            examMaterial:this.text,
-            easyMcq:this.easy,
-            midMcq:this.mid,
-            hardMcq:this.hard,
-            optionNum:this.numOfOPtions
-        });
+        const { data } = await axiosInstance.post("/api/exam", 
+          formData
+        );
         this.exam = data;
+        this.showExportButton=true;
       } catch (e) {
         console.log("error", e);
       } finally {
         this.btnLoading = false;
-        const targetElement = document.getElementById('container');
-        if(targetElement){
-        targetElement.scrollIntoView({ behavior: 'smooth' });}
+        const targetElement = document.getElementById("container");
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth" });
+        }
       }
     },
-   
-    async Export(){
-       try{ const {file}= await axiosInstance.post('/api/export',{
-            ExamID:this.exam.id
+
+    async Export() {
+      this.exported=true;
+      try {
+        const { file } = await axiosInstance.post("/api/export", {
+          ExamID: this.exam.id,
         });
-        console.log("worked")
-    }catch{
-console.log(err);
-        }
-
+        // this.$router.go();
+        console.log("worked");
+      } catch {
+        console.log(err);
+      }
     },
-    async download(){
-        try{ const file2= await axiosInstance.get('/api/download');
-        const filepath=file2.data;
-        const url= new URL(filepath);
-        const fileName = url.pathname.split('/').pop();
-        const pathWithForwardSlashes = filepath.replace(/\\/g, '/');
-        const path='C:/fakepath/test.pdf'
-        console.log(pathWithForwardSlashes);
-        console.log(fileName);
-        document.getElementById("link").setAttribute('href',fileName);
-        document.getElementById("link").setAttribute('download',fileName);
-        this.showlink=true;
-    }catch{
-console.log(err);
-        }
-
+    async shuffle() {
+      try {
+        console.log(this.exam.id);
+        console.log(this.numOfShuffle);
+        const examID=this.exam.id;
+        const {data }= await axiosInstance.post(`/api/exam/ShuffleExam`, {
+         ExamID:this.exam.id,
+         numOfShuffle:this.numOfShuffle
+        });
+      } catch {
+        console.log(err);
+      }
     },
-    // convertToJson() {
-    //   // Construct HTML content from JSON
-    //   const htmlContent = `
-    //     <html>
-    //       <body>
-    //         <h1>leen</h1>
-    //         <p>miran</p>
-    //       </body>
-    //     </html>
-    //   `;
-
-    //   // Convert HTML to .docx file
-    //   const docx = htmlDocx.asBlob(htmlContent);
-
-    //   // Create a downloadable link
-    //   const url = window.URL.createObjectURL(docx);
-    //   const a = document.createElement('a');
-    //   a.style.display = 'none';
-    //   a.href = url;
-    //   a.download = 'document.docx';
-    //   document.body.appendChild(a);
-    //   a.click();
-    //   window.URL.revokeObjectURL(url);
-    // },
-
-// async download() {
-//       try {
-//         // Fetch the file as a blob
-//         const response = await axiosInstance.get('/api/download', {
-//           responseType: 'blob'
-//         });
-
-//         // Check for the Content-Disposition header to get the filename
-//         const contentDisposition = response.headers['content-disposition'];
-//         let fileName = 'downloadedFile.pdf';
-//         if (contentDisposition) {
-//           const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
-//           if (fileNameMatch.length === 2) {
-//             fileName = fileNameMatch[1];
-//           }
-//         }
-
-//         // Create a blob from the response data
-//         const blob = new Blob([response.data], { type: response.data.type });
-//         const url = URL.createObjectURL(blob);
-
-//         // Create a link element, set its href and download attributes, and click it
-//         const link = document.createElement('a');
-//         link.href = url;
-//         link.setAttribute('download', fileName);
-//         document.body.appendChild(link);
-//         link.click();
-//         document.body.removeChild(link);
-
-//         // Release the object URL
-//         URL.revokeObjectURL(url);
-//       } catch (err) {
-//         console.error('Error downloading the file', err);
-//       }
-//     },
-//     async download() {
-//       try {
-//         const response = await axiosInstance.get('/api/download', {
-//           responseType: 'blob'  // Important for handling binary data
-//         });
-//         const url = window.URL.createObjectURL(new Blob([response.data]));
-//         this.downloadUrl = url;
-//         this.showlink = true;
-//         document.getElementById("link").click();  // Trigger the download automatically
-//       } catch (error) {
-//         console.log(error);
-//     }
-// },
-
-   async shuffle(){
- try{ 
-    console.log(this.exam.id);
-    const data= await axiosInstance.get('/api/exam/ShuffleExam',{
-    examId:this.exam.id,
-    numOfShuffle:"3"
-  })
-}catch{
-console.log(err);
-  }
-   },
     maximize1() {
       this.easy += 1;
     },
@@ -204,7 +113,7 @@ console.log(err);
     uploadFile(event) {
       this.uploadefile = event.target.files[0];
       console.log(this.uploadefile);
-      this.filename=event.target.files[0].name;
+      this.filename = event.target.files[0].name;
       this.uploaded = true;
     },
     addcontent() {
@@ -221,7 +130,7 @@ console.log(err);
 </script>
 
 <template>
-  <navigation_bar></navigation_bar>
+  <navigation_bar class="navi"></navigation_bar>
   <form class="generation" @submit.prevent="generateExam">
     <div class="material">
       <div class="uploadFile">
@@ -234,9 +143,7 @@ console.log(err);
           @change="uploadFile"
         />
         <label for="file">+</label>
-        <p class="yourfile" v-show="uploaded">
-          uploaded file: {{ filename }}
-        </p>
+        <p class="yourfile" v-show="uploaded">uploaded file: {{ filename }}</p>
         <div class="orline">
           <div class="line_before"></div>
           <p class="or">or</p>
@@ -303,9 +210,9 @@ console.log(err);
       </div>
 
       <div class="generate_button_step2">
-        <button :disabled="btnLoading" >
+        <button :disabled="btnLoading">
           {{ btnLoading ? "Generating..." : "Generate" }}
-       </button>
+        </button>
       </div>
     </div>
   </form>
@@ -314,23 +221,24 @@ console.log(err);
       <QuestionItem :exam="data" />
     </div>
   </div>
+  <p v-show="exported" class="exported">Exam Exported successfully</p>
   <div class="export_box">
-    <button @click="Export" class="export" >Export</button>
-    <button @click="download" class="download">Download</button>
-    <!-- <button @click="shuffle" class="convertToJson">Shuffle</button> -->
-    <!-- <a id="link" v-show="showlink" :href="fileUrl" :download="fileName" ref="link" >link</a> -->
-    <a id=link download>link</a>
-    <!-- <a id="link" v-show="showlink" :href="downloadUrl" download>link</a> -->
+    <button @click="Export" class="export" v-show="showExportButton">Export</button>
+    <input type="text" v-model="numOfShuffle">
+    <button @click="shuffle">Shuffle</button>
   </div>
 </template>
 
 <style>
+.navi{
+  z-index: 999;
+}
 .generation {
   width: 100vw;
   height: 700px;
   display: flex;
   flex-direction: row;
-  margin-top: 80px;
+  margin-top: 60px;
   justify-content: center;
   gap: 100px;
   background: #f4f3f4;
@@ -706,34 +614,39 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: auto;
   background-color: #f4f3f4;
 }
-.export_box{
-    width: 100vw;
-    height: 200px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content:center;
-    gap: 20px;
-    padding-bottom: 40px;
+.export_box {
+  width: 1424px;
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 20px;
+  padding-bottom: 40px;
+  background-color: #f4f3f4;
 }
-.export , .download{
-    color: white;
-            outline: none;
-            border: none;
-            margin-top: 20px;
-            display: flex;
-padding: 11px 46px;
-justify-content: center;
-align-items: center;
-gap: 10px;
-            border-radius: 40px;
-background:  #6362E3;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-color:  #F4F3F4;
-font-family: "Montserrat", sans-serif;
-font-size: 16px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+.export {
+  color: white;
+  outline: none;
+  border: none;
+  margin-top: 20px;
+  padding: 11px 46px;
+  border-radius: 40px;
+  background: #6362e3;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #f4f3f4;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+.exported{
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: rgb(111, 185, 111);
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+background-color: #f4f3f4;
 }
 </style>

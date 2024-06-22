@@ -85,7 +85,7 @@ mounted(){
           <h3 class="qustion">{{ question.question }}</h3>
           <ul>
             <li v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="answers">
-              {{ answer.answer }}
+              {{ answer.answer }}   :   {{ answer.isCorrect }}
             </li>
           </ul>
         </div>

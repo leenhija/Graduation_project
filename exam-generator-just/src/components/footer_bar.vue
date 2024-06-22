@@ -223,14 +223,15 @@ font-size: 70px;
 .sm{
   border-radius: 36px;
 background: rgba(217, 217, 217, 0.60);
-width: 996px;
-height: 553px;
+width: 796px;
+height: 453px;
 flex-shrink: 0;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 gap: 150px;
+padding: 30px;
 }
 .smtext{
   color:  #6362E3;
