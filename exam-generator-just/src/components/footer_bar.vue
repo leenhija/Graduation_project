@@ -1,23 +1,23 @@
 <template>
-  <div class="footer">
+  <div class="footer" >
 <div class="links1">
  <div class="links1_list"><ul>
     <p>Help</p>
     <li class="hover_text">About Us</li>
     <li class="hover_text">Contact Us</li>
-    <li class="hover_text">Privacy Policy</li>
+    <li class="hover_text" @click="$router.push({ name: 'privacyAndPolicy', reload: true })">Privacy Policy</li>
 
   </ul>
   <ul>
     <p>Rapidly</p>
     <li class="hover_text">Features</li>
-    <li class="hover_text">Social Media</li>
+    <li class="hover_text" @click="showoverlay">Social Media</li>
     <li class="hover_text">How it works?</li>
 
   </ul>
   <ul>
     <p>Support Us</p>
-    <li class="hover_text">Team</li>
+    <li class="hover_text" @click="$router.push({ name: 'team', reload: true })">Team</li>
     <li class="hover_text">Donations</li>
     <li class="invisable_li">invisable</li>
   </ul></div>
@@ -37,10 +37,39 @@
 </div>
 
 </div>
+</div>
+<div class="overlay" v-show="overlay" @click="hideoverlay">
+  <div class="sm">
+   <p class="smtext">Social Media</p>
+   <div class="smicons">
+    <img src="../assets/social1.svg">
+    <img src="../assets/social2.svg">
+    <img src="../assets/social3.svg">
+    <img src="../assets/social4.svg">
+
+   </div>
+  </div>
 </div> 
 </template>
 <script>
+export default{
+  data()
+{
+  return{
+    overlay:false
+  }
+},
+methods:{
+  showoverlay()
+{
+  this.overlay=true;
+},
+hideoverlay(){
+  this.overlay=false;
 
+}
+}
+}
 </script>
 <style>
 .footer{
@@ -177,5 +206,45 @@ gap: 20px;
   cursor: grab;
 text-decoration: underline;
 text-decoration-color: #6362E3;
+}
+.overlay {
+  position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0, 0, 0, 0.726);
+display: flex;
+justify-content: center;
+align-items: center;
+padding-top: 40px;
+font-size: 70px;
+}
+.sm{
+  border-radius: 36px;
+background: rgba(217, 217, 217, 0.60);
+width: 996px;
+height: 553px;
+flex-shrink: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 150px;
+}
+.smtext{
+  color:  #6362E3;
+text-shadow: 0px 10px 9px rgba(0, 0, 0, 0.25);
+font-family: "Montserrat", sans-serif;
+font-size: 50px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+.smicons{
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  margin-top: -70px;
 }
 </style>

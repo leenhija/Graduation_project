@@ -31,9 +31,8 @@
       <li class="your_profile" @click="gotoProjects"><img src="../assets/your_project_icon.svg" class="icon_hover"> Your Projects</li>
       <li class="your_profile" @click="$router.push({name:'settings'})"><img src="../assets/setting_icon.svg" class="icon_hover"> Settings</li>
       <li class="your_profile"><img src="../assets/dark_mode_icon.svg" class="icon_hover"> Dark Mode</li>
-      <li class="your_profile"><img src="../assets/privacy_policy_icon.svg" class="icon_hover"> Privacy Policy</li>
       <li class="your_profile support_us"><img src="../assets/support_icon.svg" class="icon_hover"> Support Us</li>
-      <li class="your_profile sign_out" @click="signout()" >sign out</li>
+      <li class="your_profile sign_out" @click="signout()" ><p class="sign_out_text">sign out</p></li>
     </ul>
   </div>
 </div>
@@ -43,8 +42,11 @@
 <p class="text2">Power Up Your Assessments with AI-Driven Exams</p>
 </div>
 <div class="generate_button">
+  <img src="@/assets/bard.svg" class="bard1">
 <button @click=" $router.push({name:'materailandexamchar'}); ">Generate Exam</button>
+<img src="@/assets/bard.svg" class="bard2">
 </div>
+<img src="@/assets/bard.svg" class="bard3">
 </div>
 </div>
 <get_started></get_started>
@@ -223,7 +225,7 @@ justify-content: center;
 align-items: center;
 gap:40px;
 color: black;
-margin-top: 25px;
+
 }
 .home_border{
   width: 40px;
@@ -274,9 +276,8 @@ color:#434343;
 }
 .profile .drop_down_list{
 width: 200px;
-height: 450px;
+height: 400px;
 background-color: #D9D9D9;
-overflow-wrap: inherit;
 padding-right: 0px;
 margin-right: -20px;
 border-radius: 20px;
@@ -390,8 +391,12 @@ line-height: normal;
 
 }
 .sign_out{
-margin-left: 80px;
+/* margin-left: 80px; */
 cursor: grab;
+text-align: center;
+}
+.sign_out_text{
+  margin-left: 40px;
 }
 .your_profile{
   color: rgba(67, 67, 67, 1);
@@ -442,7 +447,7 @@ line-height: normal;
 }
 .generate_button{
   display: flex;
-width: 324px;
+width: 600px;
 height: 97px;
 padding: 10px;
 justify-content: center;
@@ -472,5 +477,22 @@ cursor: grab;
 }
 .icon_hover:hover{
 width: 20px;
+}
+.bard1{
+  position: relative;
+  left:-60px;
+  top: -60px;
+}
+.bard2
+{
+  position: relative;
+  right:-60px; 
+  top: -60px;
+
+}
+.bard3{
+  position: relative;
+  bottom: -20px;
+  left: -170px;
 }
 </style>

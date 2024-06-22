@@ -16,54 +16,16 @@
         </div>
         <div class="input_box">
           <p class="edit">PHONE NUMBER</p>
-          <p>{{ user_phonenumber }}</p>
+          <p>{{ origin_phonenumber  }}</p>
         </div>
       </div>
       <div class="profile_part2_b">
-        <div class="input_box">
-          <p class="edit">
-            COUNTRY
-            <button @click.prevent="enable_edit1()">
-              <img src="../assets/edit_icon.svg" />
-            </button>
-          </p>
-          <p v-show="show_country">{{ user_country }}</p>
-          <input
-            type="text"
-            class="normal"
-            v-show="edit_country"
-            :placeholder="user_country"
-            v-model="country"
-            :disabled="disable1"
-          />
-        </div>
-        <div class="input_box">
-          <p class="edit">
-            HEADLINE<button @click.prevent="enable_edit2()">
-              <img src="../assets/edit_icon.svg" />
-            </button>
-          </p>
-          <p v-show="show_headline">{{ user_headline }}</p>
-          <textarea
-            type="text"
-            class="special"
-            v-show="edit_headline"
-            v-model="headline"
-            :placeholder="user_headline"
-            :disabled="disable2"
-          ></textarea>
-        </div>
+        
+        
       </div>
     </div>
     <div class="line"></div>
-    <div class="changes" v-show="changes">
-      <p>changes saved successfully</p>
-      <i class="fa-solid fa-check" id="8-char" style="color: #61b143"></i>
-    </div>
     <div class="profile_part3">
-      <button class="save" @click.prevent="change_settings()">
-        Save Changes
-      </button>
     </div>
   </form>
 </template>
@@ -92,7 +54,6 @@ const show_country = ref(true);
 const show_headline = ref(true);
 const user_country = ref("");
 const user_headline = ref("");
-const user_phonenumber = ref("");
  onMounted(()=>{
     print_userEmail()
  })
@@ -100,53 +61,14 @@ async function print_userEmail() {
     email.value =userStore().user?.email;
   origin_username.value =userStore().user?.firstName;
   origin_phonenumber.value =userStore().user?.phone;
-  //  user_country=store.value.user.country;
-  //  user_headline=store.value.user.headline;
+
 }
 
-async function change_settings() {
-  try {
-    const response = await axios.put("add_country_and_headline", {
-      country: country.value,
-      headline: headline.value,
-      email: email.value,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    changes.value = true;
-  } catch {
-    console.log("error");
-  }
-}
 
-function enable_edit1() {
-  disable1.value = false;
-  edit_country.value = true;
-  show_country.value = false;
-}
 
-function enable_edit2() {
-  disable2.value = false;
-  edit_headline.value = true;
-  show_headline.value = false;
-}
 
-function enable_edit3() {
-  disable3.value = false;
-  edit_phonenumber.value = true;
-}
 
-function enable_edit4() {
-  disable4.value = false;
-  edit_username.value = true;
-}
 
-function close_edditing() {
-  edit_country.value = false;
-  edit_headline.value = false;
-}
  
 </script>
 <style>

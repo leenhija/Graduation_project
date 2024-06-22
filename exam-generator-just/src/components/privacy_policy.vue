@@ -8,6 +8,9 @@
 <p class="p4">Personally identifiable information, such as your name, email address, and phone number, and country, that you voluntarily give to us when you register with the Site or when you choose to participate in various activities related to the Site.</p>
 <p class="p5">If you access the Site via a google account, we may collect your related profile information.</p>
 </div>
+<div class="back">
+   <button @click="$router.push({ name: 'loggedin', reload: true })">Back</button>
+</div>
 </div>
 </template>
 <script>
@@ -64,5 +67,29 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 }
-
+.back{
+   width: 900px;
+display: flex;
+flex-direction: row;
+justify-content: end;
+padding-right: 30px;
+}
+.back button{
+   border-radius: 40px;
+background:  #6362E3;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+display: flex;
+padding: 11px 46px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+color:  #F4F3F4;
+font-family: "Roboto",sans-serif;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+border: none;
+cursor: grab;
+}
 </style>

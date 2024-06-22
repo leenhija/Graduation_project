@@ -67,12 +67,9 @@ mounted(){
       </div>
       <div class="uasername_and_headline">
       <div class="username">{{username}}</div>
-      <div class="headline">{{ headline }}</div>
     </div>
       </div>
-      <div class="info2">
-       <div class="countery">{{ country }}</div>
-      </div>
+     
     </div>
     <div class="line"></div>
     <div class="drafts">
@@ -163,32 +160,8 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 }
-.headline{
-    color:#393939;
-    font-family: "Montserrat", sans-serif;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
-.info2{
-    width: 200px;
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-}
-.info2 img{
-width: 24px;
-height: 24px;
-}
-.info2 .country{
-    color:  #393939;
-    font-family: "Montserrat", sans-serif;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-}
+
+
 .line{
   width: 1370px;
 height: 1px;

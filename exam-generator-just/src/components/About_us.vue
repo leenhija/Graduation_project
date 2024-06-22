@@ -50,7 +50,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-top: -200px;
+  margin-top: -100px;
   }
   
   .AboutUS_container .block_1 h1 span{
@@ -90,7 +90,7 @@
     justify-content: center;
     align-items: center;
     gap: 100px;
-    margin-top: -60px;
+    margin-top: 0px;
   }
   .AboutUS_container .block_2 .b2_img1{
     display: flex;

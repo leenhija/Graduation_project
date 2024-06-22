@@ -20,8 +20,11 @@
 <p class="text2">Power Up Your Assessments with AI-Driven Exams</p>
 </div>
 <div class="generate_button">
+  <img src="@/assets/bard.svg" class="bard1">
 <button @click="{ $router.push({name:'materailandexamchar'}); }">Generate Exam</button>
+<img src="@/assets/bard.svg" class="bard2">
 </div>
+<img src="@/assets/bard.svg" class="bard3">
 </div>
     </div>
 
@@ -121,7 +124,6 @@ justify-content: center;
 align-items: center;
 gap:40px;
 color: black;
-margin-top: 25px;
 }
 .home_border{
   width: 40px;
@@ -205,9 +207,32 @@ font-style: normal;
 font-weight: 700;
 line-height: normal;
 }
+.text1, .text2 {
+  opacity: 0;
+  position: relative;
+  animation: floatDown 0.75s ease-in-out forwards;
+}
+
+.text2 {
+  animation-delay: 0.5s; /* Delay the second text */
+}
+
+@keyframes floatDown {
+  0% {
+    top: -20px; /* Start a little above the initial position */
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 0; /* End at the initial position */
+    opacity: 1;
+  }
+}
 .generate_button{
   display: flex;
-width: 324px;
+width: 600px;
 height: 97px;
 padding: 10px;
 justify-content: center;
@@ -229,5 +254,74 @@ font-size: 25px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
+}
+.generate_button button:hover{
+  width: 298px;
+  height: 70px;
+  font-size: 23px;
+transition: .25s;
+}
+.bard1{
+  position: relative;
+  left:-60px;
+  top: -40px;
+  animation: floatDown4 0.75s ease-in-out forwards;
+
+}
+.bard2
+{
+  position: relative;
+  right:-60px; 
+  top: -60px;
+  animation: floatDown2 0.75s ease-in-out forwards;
+
+
+}
+.bard3{
+  position: relative;
+  top: 20px;
+  left: -170px;
+  animation: floatDown3 0.75s ease-in-out forwards;
+
+}
+@keyframes floatDown2 {
+  0% {
+    top: -20px; /* Start a little above the initial position */
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: -60px; /* End at the initial position */
+    opacity: 1;
+  }
+}
+
+@keyframes floatDown3 {
+  0% {
+    top: -20px; /* Start a little above the initial position */
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 20px; /* End at the initial position */
+    opacity: 1;
+  }
+}
+@keyframes floatDown4 {
+  0% {
+    top: -20px; /* Start a little above the initial position */
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: -40px; /* End at the initial position */
+    opacity: 1;
+  }
 }
 </style>

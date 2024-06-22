@@ -50,15 +50,12 @@
             <img src="../assets/dark_mode_icon.svg" class="icon_hover" /> Dark
             Mode
           </li>
-          <li class="your_profile">
-            <img src="../assets/privacy_policy_icon.svg" class="icon_hover" />
-            Privacy Policy
-          </li>
+          
           <li class="your_profile support_us">
             <img src="../assets/support_icon.svg" class="icon_hover" /> Support
             Us
           </li>
-          <li class="your_profile sign_out" @click="signout()">sign out</li>
+          <li class="your_profile sign_out" @click="signout()" ><p class="sign_out_text">sign out</p></li>
         </ul>
       </div>
     </div>
@@ -168,7 +165,7 @@ body {
   align-items: center;
   gap: 40px;
   color: black;
-  margin-top: 25px;
+  /* margin-top: 25px; */
 }
 .home_border {
   width: 40px;
@@ -216,7 +213,7 @@ color:#434343;
 }
 .profile .drop_down_list {
   width: 200px;
-  height: 450px;
+  height: 400px;
   background-color: #d9d9d9;
   overflow-wrap: inherit;
   padding-right: 0px;
@@ -315,8 +312,10 @@ color:#434343;
   border-bottom: 2px solid #616161;
 }
 .sign_out {
-  margin-left: 80px; 
    cursor: grab;
+}
+.sign_out_text{
+  margin-left: 40px;
 }
 .your_profile {
   color: rgba(67, 67, 67, 1);

@@ -16,8 +16,7 @@ justify-content: space-between;
 align-items:center;
 /* gap:10px; */
 background-color: #F4F3F4;
-padding-top: 60px;
-padding-bottom: 60px;
+padding-top: 90px;
 }
 .contactUs_box .title{
     color: #6362E3;
@@ -28,7 +27,7 @@ font-size: 36px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
-margin-bottom: -20px;
+margin-bottom: -80px;
 }
 .contactUs_box .emailAdress{
     display: flex;
@@ -36,7 +35,7 @@ margin-bottom: -20px;
     gap: 10px;
     align-items: center;
     justify-content: center;
-    margin-top: -10px;
+    margin-top: 0px;
     color: #5F5F5F;
     font-family: "Montserrat", sans-serif;
     font-size: 24px;

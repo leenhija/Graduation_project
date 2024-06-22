@@ -48,6 +48,16 @@ const router = createRouter({
       name: "profile",
       component: () => import("../views/profile.vue"),
     },
+    {
+      path: "/privacyAndPolicy",
+      name: "privacyAndPolicy",
+      component: () => import("../views/privacyAndPolicy.vue"),
+    },
+    {
+      path: "/team",
+      name: "team",
+      component: () => import("../views/team.vue"),
+    },
   ],
 });
 router.beforeEach(async (to, from, next) => {
