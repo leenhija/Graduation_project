@@ -6,7 +6,6 @@ import navigation_bar from "@/components/navigation_bar.vue";
 import QuestionItem from "@/components/question_item.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-import { useRouter } from 'vue-router';
 export default {
   components: {
     navigation_bar: navigation_bar,
@@ -34,12 +33,12 @@ export default {
       fileUrl: "",
       fileName: "",
       downloadUrl: "",
-      numOfShuffle:0,
-      exported:false,
-      showExportButton1:true,
-      showExportButton2:false,
-      showExportBox:false,
-      export_sentence:false
+      numOfShuffle: 0,
+      exported: false,
+      showExportButton1: true,
+      showExportButton2: false,
+      showExportBox: false,
+      export_sentence: false,
     };
   },
   methods: {
@@ -54,12 +53,10 @@ export default {
         formData.append("midMcq", this.mid);
         formData.append("hardMcq", this.hard);
         formData.append("optionNum", this.numOfOPtions);
-        const { data } = await axiosInstance.post("/api/exam", 
-          formData
-        );
+        const { data } = await axiosInstance.post("/api/exam", formData);
         this.exam = data;
-        this.export_sentence=true;
-        this.showExportBox=true;
+        this.export_sentence = true;
+        this.showExportBox = true;
       } catch (e) {
         console.log("error", e);
       } finally {
@@ -72,7 +69,7 @@ export default {
     },
 
     async Export() {
-      this.exported=true;
+      this.exported = true;
       try {
         const { file } = await axiosInstance.post("/api/export", {
           ExamID: this.exam.id,
@@ -87,12 +84,12 @@ export default {
       try {
         console.log(this.exam.id);
         console.log(this.numOfShuffle);
-        const examID=this.exam.id;
-        const {data }= await axiosInstance.post(`/api/exam/ShuffleExam`, {
-         ExamID:this.exam.id,
-         numOfShuffle:this.numOfShuffle
+        const examID = this.exam.id;
+        const { data } = await axiosInstance.post(`/api/exam/ShuffleExam`, {
+          ExamID: this.exam.id,
+          numOfShuffle: this.numOfShuffle,
         });
-        this.exported=true;
+        this.exported = true;
       } catch {
         console.log(err);
       }
@@ -115,22 +112,25 @@ export default {
     minimize3() {
       if (this.easy > 0) this.hard -= 1;
     },
-    maximize4(){
-      this.numOfShuffle+=1;
-     if(this.numOfShuffle>0){
-      this.showExportButton1=false;
-      this.showExportButton2=true;
-      document.getElementById('export_buttons').setAttribute("style","margin-right:-840px");
-     }
+    maximize4() {
+      this.numOfShuffle += 1;
+      if (this.numOfShuffle > 0) {
+        this.showExportButton1 = false;
+        this.showExportButton2 = true;
+        document
+          .getElementById("export_buttons")
+          .setAttribute("style", "margin-right:-840px");
+      }
     },
-    minimize4(){
-      this.numOfShuffle-=1;
-       if(this.numOfShuffle==0){
-        this.showExportButton1=true;
-      this.showExportButton2=false;
-      document.getElementById('export_buttons').setAttribute("style","margin-left:-10px");
-
-       }
+    minimize4() {
+      this.numOfShuffle -= 1;
+      if (this.numOfShuffle == 0) {
+        this.showExportButton1 = true;
+        this.showExportButton2 = false;
+        document
+          .getElementById("export_buttons")
+          .setAttribute("style", "margin-left:-10px");
+      }
     },
     uploadFile(event) {
       this.uploadefile = event.target.files[0];
@@ -138,19 +138,15 @@ export default {
       this.filename = event.target.files[0].name;
       this.uploaded = true;
     },
-    addcontent() {
-      document.getElementById("quill").innerHTML = this.newtext;
+    regenerate() {
+      this.$router.push({ name: "materailandexamchar" });
     },
-    regenerate(){
-      this.$router.push({name:'materailandexamchar'});
-    }
   },
   mounted() {
     this.editor = new Editor({
       content: `<p>${this.exam}</p>`,
       extensions: [StarterKit],
     });
-   
   },
 };
 </script>
@@ -254,42 +250,54 @@ export default {
   <div class="export_box" v-show="showExportBox">
     <div class="export_container">
       <div class="shuffle_regenrate">
-      <div class="shuffle_box">
-        <div class="shuffle_p">
-          <p class="shuffle_title">Shuffled Exam</p>
-          <p class="shuffle_dec">Select desired quantity</p>
-        </div>
-     <div class="shuffle_plus_minus">
-      <div class="choices">
-            <p class="plus" @click="maximize4()">+</p>
-            <input class="levels" v-model="numOfShuffle" type="number" />
-            <p class="minus" @click="minimize4()">-</p>
+        <div class="shuffle_box">
+          <div class="shuffle_p">
+            <p class="shuffle_title">Shuffled Exam</p>
+            <p class="shuffle_dec">Select desired quantity</p>
           </div>
-     </div>
-    </div>
-    <div class="regenerate_box">
-      <div class="regenerate_p">
-        <p class="regenerate_title">New Form?</p>
-        <p class="regenerate_dec">Regenerate exam for new form!</p>
+          <div class="shuffle_plus_minus">
+            <div class="choices">
+              <p class="plus" @click="maximize4()">+</p>
+              <input class="levels" v-model="numOfShuffle" type="number" />
+              <p class="minus" @click="minimize4()">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="regenerate_box">
+          <div class="regenerate_p">
+            <p class="regenerate_title">New Form?</p>
+            <p class="regenerate_dec">Regenerate exam for new form!</p>
+          </div>
+          <button class="regenerate_button">
+            <a href="#generateID">Regenerate</a>
+          </button>
+        </div>
       </div>
-      <button class="regenerate_button" ><a href="#generateID">Regenerate</a></button>
+      <div class="export_buttons" id="export_buttons">
+        <button
+          @click="Export"
+          class="export"
+          v-show="showExportButton1"
+          id="export1"
+        >
+          Export
+        </button>
+        <button
+          @click="shuffle"
+          class="shuffle_button"
+          v-show="showExportButton2"
+          id="export2"
+        >
+          Export
+        </button>
+      </div>
+      <p v-show="exported" class="exported">Exam Exported successfully</p>
     </div>
-    </div>
-  <div class="export_buttons" id="export_buttons">
-    <button @click="Export" class="export" v-show="showExportButton1" id="export1">Export</button>
-    <button @click="shuffle" class="shuffle_button" v-show="showExportButton2" id="export2">Export</button>
-  </div>
-  <p v-show="exported" class="exported">Exam Exported successfully</p>
-
-
-    </div>
-  
-
   </div>
 </template>
 
 <style>
-.navi{
+.navi {
   z-index: 999;
 }
 .generation {
@@ -458,9 +466,6 @@ export default {
   cursor: grab;
 }
 
-/* .inputfile:focus + label,
-.inputfile + label:hover {
-} */
 .number_of_options {
   display: flex;
   flex-direction: column;
@@ -549,7 +554,7 @@ export default {
   padding: 10px;
   border-radius: 30px;
 }
-.export_container{
+.export_container {
   width: 900px;
   height: 350px;
   padding: 30px;
@@ -557,41 +562,40 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   border-radius: 20px;
 }
-.shuffle_regenrate{
-  display:flex;
+.shuffle_regenrate {
+  display: flex;
   flex-direction: row;
   gap: 100px;
   margin-left: -200px;
   margin-top: 50px;
 }
-.shuffle_box{
+.shuffle_box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  gap:60px;
-  
+  gap: 60px;
 }
-.shuffle_box .shuffle_title{
+.shuffle_box .shuffle_title {
   color: #393939;
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-.shuffle_box .shuffle_dec{
+.shuffle_box .shuffle_dec {
   color: #393939;
   font-family: "Montserrat", sans-serif;
-font-size: 15px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
-.shuffle_box .choices{
+.shuffle_box .choices {
   width: 150px;
   display: flex;
   flex-direction: row;
@@ -603,7 +607,7 @@ line-height: normal;
   padding: 10px;
   border-radius: 30px;
 }
-.shuffle_box .levels{
+.shuffle_box .levels {
   width: 30px;
   border: none;
   border-radius: 30px;
@@ -611,75 +615,76 @@ line-height: normal;
   text-align: center;
   background-color: #eaeaea;
 }
-.shuffle_plus_minus{
-  display:flex;
- flex-direction: column;
+.shuffle_plus_minus {
+  display: flex;
+  flex-direction: column;
 }
-.regenerate_box{
+.regenerate_box {
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  gap:60px;
-height:200px;
+  gap: 60px;
+  height: 200px;
 }
-.regenerate_box .regenerate_p{
+.regenerate_box .regenerate_p {
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  gap:10px;
+  gap: 10px;
   margin-top: -80px;
 }
-.shuffle_p{
+.shuffle_p {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
   margin-top: -70px;
-  gap:10px;
+  gap: 10px;
 }
-.regenerate_box .regenerate_title{
-  color:  #393939;
-  font-family: "Montserrat", sans-serif;font-size: 30px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+.regenerate_box .regenerate_title {
+  color: #393939;
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-.regenerate_box .regenerate_dec{
-  color:  #393939;
-  font-family: "Montserrat", sans-serif;font-size: 30px;
-font-size: 15px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+.regenerate_box .regenerate_dec {
+  color: #393939;
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
-.regenerate_box .regenerate_button{
+.regenerate_box .regenerate_button {
   border-radius: 30px;
-background: #FFD863;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 90px 5px rgba(0, 0, 0, 0.25);
-display: flex;
-width: 196px;
-height: 59px;
+  background: #ffd863;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
+    0px 4px 90px 5px rgba(0, 0, 0, 0.25);
+  display: flex;
+  width: 196px;
+  height: 59px;
 
-justify-content: center;
-align-items: center;
-gap: 10px;
-flex-shrink: 0;
-border:none;
-color: #424242;
-text-align: center;
-font-family: "Roboto",sans-serif;
-font-size: 20px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border: none;
+  color: #424242;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-.regenerate_button a{
+.regenerate_button a {
   text-decoration: none;
   color: #424242;
-
 }
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -831,8 +836,7 @@ input[type="number"]::-webkit-inner-spin-button {
   font-weight: 600;
   cursor: grab;
 }
-.exported{
- 
+.exported {
   color: rgb(111, 185, 111);
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
@@ -840,7 +844,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin-top: 20px;
   font-weight: 500;
 }
-.shuffle_button{
+.shuffle_button {
   color: white;
   outline: none;
   border: none;
@@ -853,13 +857,13 @@ input[type="number"]::-webkit-inner-spin-button {
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   font-weight: 600;
-  margin-left:-147px;
+  margin-left: -147px;
   cursor: grab;
 }
-.export_buttons{
-margin-right: -700px;
+.export_buttons {
+  margin-right: -700px;
 }
-.export_sentence{
+.export_sentence {
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -869,24 +873,23 @@ margin-right: -700px;
   background-color: #f4f3f4;
   height: 92px;
   padding: 30px;
-
 }
-.export_sentence .e1{
-  color:  #393939;
-text-align: center;
-font-family: "Montserrat", sans-serif;
-font-size: 40px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+.export_sentence .e1 {
+  color: #393939;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-.export_sentence .e2{
-  color:  #393939;
-text-align: center;
-font-family: "Montserrat", sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
+.export_sentence .e2 {
+  color: #393939;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 </style>

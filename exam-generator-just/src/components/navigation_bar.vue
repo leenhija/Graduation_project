@@ -9,11 +9,9 @@
       </h1>
     </div>
     <div class="pages">
-      <!-- <i class="fa-thin fa-house"></i> -->
-      <button class="Home" id="Home" @click="gotoHome()" >Home</button>
-      <button class="About" >About</button>
+      <button class="Home" id="Home" @click="gotoHome()">Home</button>
+      <button class="About">About</button>
       <button class="Contact" id="Contact">Contact</button>
-   
     </div>
     <div class="profile" @mouseleave="hide()">
       <div class="dark_mode_and_profile" v-show="show1">
@@ -50,71 +48,68 @@
             <img src="../assets/dark_mode_icon.svg" class="icon_hover" /> Dark
             Mode
           </li>
-          
+
           <li class="your_profile support_us">
             <img src="../assets/support_icon.svg" class="icon_hover" /> Support
             Us
           </li>
-          <li class="your_profile sign_out" @click="signout()" ><p class="sign_out_text">sign out</p></li>
+          <li class="your_profile sign_out" @click="signout()">
+            <p class="sign_out_text">sign out</p>
+          </li>
         </ul>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import { userStore } from '@/stores/user';
-export default{
-    data(){
-        return{
-      userEmail:'',
-    profile_pic:'',
-    username:'',
-    show1:true,
-    show2:false,
-        }
-    },methods:{
-    async print_userEmail(){
-
-    this.username=userStore()?.user?.firstName;
-     this.profile_pic=userStore().user?.email.substring(0,2).toUpperCase();
-   },
-signout(){
-localStorage.clear()
-this.$router.push({name:'home',reload:true});
-},
-show(e){
-this.show2=true;
-this.show1=false;
-}
-,
-hide(e){
-    this.show1=true;
-    this.show2=false;
-
-}
-,
-gotoprofile()
-{
-  this.$router.push({name:'profile',reload:true});
-},
-gotoProjects(){
-  this.$router.push({name:'profile',reload:true});
-
-},
-gotoHome(){
-  this.$router.push({name:'loggedin',reload:true});
-},
-list_style(){
-    return{
-    color:'#6362E3',
-}
-}
+import { userStore } from "@/stores/user";
+export default {
+  data() {
+    return {
+      userEmail: "",
+      profile_pic: "",
+      username: "",
+      show1: true,
+      show2: false,
+    };
+  },
+  methods: {
+    async print_userEmail() {
+      this.username = userStore()?.user?.firstName;
+      this.profile_pic = userStore().user?.email.substring(0, 2).toUpperCase();
     },
-    mounted(){
-   this.print_userEmail()
-  }
-  }
- </script>
+    signout() {
+      localStorage.clear();
+      this.$router.push({ name: "home", reload: true });
+    },
+    show(e) {
+      this.show2 = true;
+      this.show1 = false;
+    },
+    hide(e) {
+      this.show1 = true;
+      this.show2 = false;
+    },
+    gotoprofile() {
+      this.$router.push({ name: "profile", reload: true });
+    },
+    gotoProjects() {
+      this.$router.push({ name: "profile", reload: true });
+    },
+    gotoHome() {
+      this.$router.push({ name: "loggedin", reload: true });
+    },
+    list_style() {
+      return {
+        color: "#6362E3",
+      };
+    },
+  },
+  mounted() {
+    this.print_userEmail();
+  },
+};
+</script>
 <style>
 body {
   overflow-x: hidden;
@@ -143,12 +138,9 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  /* margin-top: -650px; */
+  position: fixed;
+  top: 0;
   background-color: #d9d9d9;
-  /* margin-top: -680px; */
   color: white;
   font-family: "Roboto", sans-serif;
   border-radius: 0px 0px 30px 30px;
@@ -165,7 +157,6 @@ body {
   align-items: center;
   gap: 40px;
   color: black;
-  /* margin-top: 25px; */
 }
 .home_border {
   width: 40px;
@@ -198,17 +189,17 @@ body {
   border: none;
   background-color: #d9d9d9;
   font-family: "Montserrat", sans-serif;
-color:#434343;
+  color: #434343;
 }
 .About {
   background-color: #d9d9d9;
   font-family: "Montserrat", sans-serif;
-color:#434343;
+  color: #434343;
 }
 .Contact {
   border: none;
   font-family: "Montserrat", sans-serif;
-  color:#434343;
+  color: #434343;
   background-color: #d9d9d9;
 }
 .profile .drop_down_list {
@@ -312,9 +303,9 @@ color:#434343;
   border-bottom: 2px solid #616161;
 }
 .sign_out {
-   cursor: grab;
+  cursor: grab;
 }
-.sign_out_text{
+.sign_out_text {
   margin-left: 40px;
 }
 .your_profile {

@@ -16,60 +16,32 @@
         </div>
         <div class="input_box">
           <p class="edit">PHONE NUMBER</p>
-          <p>{{ origin_phonenumber  }}</p>
+          <p>{{ origin_phonenumber }}</p>
         </div>
       </div>
-      <div class="profile_part2_b">
-        
-        
-      </div>
+      <div class="profile_part2_b"></div>
     </div>
     <div class="line"></div>
-    <div class="profile_part3">
-    </div>
+    <div class="profile_part3"></div>
   </form>
 </template>
 <script setup>
 import { faL } from "@fortawesome/free-solid-svg-icons";
- const store = userStore();
-import { ref,onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import { userStore } from "@/stores/user";
- const email = ref("");
-const username = ref("");
-const phoneNumber = ref("");
-const country = ref("");
+const email = ref("");
 const headline = ref("");
 const origin_username = ref("");
 const origin_phonenumber = ref("");
-const changes = ref(false);
-const disable1 = ref(true);
-const edit_country = ref(false);
-const disable2 = ref(false);
-const edit_headline = ref(false);
-const disable3 = ref(false);
-const edit_phonenumber = ref(false);
-const edit_username = ref(false);
-const disable4 = ref(false);
-const show_country = ref(true);
-const show_headline = ref(true);
-const user_country = ref("");
-const user_headline = ref("");
- onMounted(()=>{
-    print_userEmail()
- })
+
+onMounted(() => {
+  print_userEmail();
+});
 async function print_userEmail() {
-    email.value =userStore().user?.email;
-  origin_username.value =userStore().user?.firstName;
-  origin_phonenumber.value =userStore().user?.phone;
-
+  email.value = userStore().user?.email;
+  origin_username.value = userStore().user?.firstName;
+  origin_phonenumber.value = userStore().user?.phone;
 }
-
-
-
-
-
-
- 
 </script>
 <style>
 .edditing_1 {
@@ -214,7 +186,6 @@ input {
 }
 .edit button {
   background: #eae9ea;
-  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   border-radius: 10px;
   flex-shrink: 0;
   border: none;

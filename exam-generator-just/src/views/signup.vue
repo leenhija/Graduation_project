@@ -60,7 +60,7 @@
             placeholder="Email Address"
             v-model="email"
             @input="validateEmail"
-             required
+            required
           />
           <small id="email-error" v-show="email_rules"
             >valid email : user@example.com</small
@@ -135,124 +135,141 @@
   </div>
 </template>
 <script>
-import axiosInstance from '@/axios';
- export default{
-data(){
-  return{
-    firstName:'',
-    lastName:'',
-phone: '',
-email:'',
-password:'',
-has_minimum_lenth: false,
-has_number: false,
-has_lowercsae: false,
-has_uppercase: false,
-has_special: false,
-show_password_rules:false,
-username_rules:false,
-email_rules:false,
-phone_rules:false,
-rule_1:false,
-rule_2:false,
-rule_3:false,
-rule_4:false,
-rule_5:false,
-  };
-},
-methods:{
-async signup(){
-  try {
-    console.log("sign up");
+import axiosInstance from "@/axios";
+export default {
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      password: "",
+      has_minimum_lenth: false,
+      has_number: false,
+      has_lowercsae: false,
+      has_uppercase: false,
+      has_special: false,
+      show_password_rules: false,
+      username_rules: false,
+      email_rules: false,
+      phone_rules: false,
+      rule_1: false,
+      rule_2: false,
+      rule_3: false,
+      rule_4: false,
+      rule_5: false,
+    };
+  },
+  methods: {
+    async signup() {
+      try {
+        console.log("sign up");
         const response = await axiosInstance.post(`api/auth/register`, {
           email: this.email,
           password: this.password,
           firstName: this.firstName,
           lastName: this.lastName,
-          phone:this.phone,
+          phone: this.phone,
         });
         console.log(response);
-        // Reset form fields
-        // Redirect or show success message
-        this.$router.push({name:'login'});
+        this.$router.push({ name: "login" });
       } catch (error) {
-console.log(error);
-        this.email_rules=true;
-        document.getElementById("email").setAttribute("style","border-color: rgb(232, 93, 93)");
-        document.getElementById("email-error").innerHTML="this email is alraedy used!";
+        console.log(error);
+        this.email_rules = true;
+        document
+          .getElementById("email")
+          .setAttribute("style", "border-color: rgb(232, 93, 93)");
+        document.getElementById("email-error").innerHTML =
+          "this email is alraedy used!";
       }
-},
-validateEmail() {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
-      document.getElementById("email").setAttribute("style","border-color: rgb(76, 207, 76)");
-      this.email_rules=false
-    } else {
-        document.getElementById("email").setAttribute("style","border-color: rgb(232, 93, 93)");
-        this.email_rules=true;
-    }
     },
-    validatephone(){
+    validateEmail() {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+        document
+          .getElementById("email")
+          .setAttribute("style", "border-color: rgb(76, 207, 76)");
+        this.email_rules = false;
+      } else {
+        document
+          .getElementById("email")
+          .setAttribute("style", "border-color: rgb(232, 93, 93)");
+        this.email_rules = true;
+      }
+    },
+    validatephone() {
       this.handelphone();
-      if(this.phone.length==10 && this.phone.substring(0,1)=='0'){
-        document.getElementById("phone").setAttribute("style","border-color: rgb(76, 207, 76)");
-        this.phone_rules=false;
-      }
-      else if(this.phone.length!=10){
-        document.getElementById("phone").setAttribute("style","border-color: rgb(232, 93, 93)");
-        this.phone_rules=true;
-      }
-      else if (this.phone.substring(0,1)!='0' && this.phone.length==10){
-        document.getElementById("phone").setAttribute("style","border-color: rgb(232, 93, 93)");
-        this.phone_rules=true;
+      if (this.phone.length == 10 && this.phone.substring(0, 1) == "0") {
+        document
+          .getElementById("phone")
+          .setAttribute("style", "border-color: rgb(76, 207, 76)");
+        this.phone_rules = false;
+      } else if (this.phone.length != 10) {
+        document
+          .getElementById("phone")
+          .setAttribute("style", "border-color: rgb(232, 93, 93)");
+        this.phone_rules = true;
+      } else if (this.phone.substring(0, 1) != "0" && this.phone.length == 10) {
+        document
+          .getElementById("phone")
+          .setAttribute("style", "border-color: rgb(232, 93, 93)");
+        this.phone_rules = true;
       }
     },
     focusNextInput(event, nextInput) {
-      // Prevent default behavior of "Enter" key
       event.preventDefault();
-
-      // Focus on the next input field
       this.$refs[nextInput].focus();
     },
-    validatePassword(){
-            this.has_minimum_lenth = (this.password.length > 8);
-            this.has_number    = /\d/.test(this.password);
-            this.has_lowercase = /[a-z]/.test(this.password);
-            this.has_uppercase = /[A-Z]/.test(this.password);
-            this.has_special   = /[!@#\$%\^\&*\)\(+=._-]/.test(this.password);
-            if(this.has_minimum_lenth){
-            this.rule_1=true;
-            }
-            if(this.has_lowercase){
-            this.rule_2=true;
-            }
-            if(this.has_uppercase){
-            this.rule_3=true;
-            }
-            if(this.has_number){
-            this.rule_4=true;
-            }
-            if(this.has_special){
-            this.rule_5=true;
-            }
-            if(this.has_minimum_lenth==true && this.has_number==true && this.has_lowercase==true && this.has_uppercase==true && this.has_special==true){
-              document.getElementById("password").setAttribute("style","border-color: rgb(76, 207, 76)");
-              document.getElementById("signup_container").setAttribute("style","height:600px");
-              this.show_password_rules=false;
-            }
-            else{
-              document.getElementById("password").setAttribute("style","border-color: rgb(232, 93, 93)");
-
-            }
-        },
-        condition(){
-          this.show_password_rules=true;
-          document.getElementById("signup_container").setAttribute("style","height:650px");
-        },
-        handelphone(){
-        this.phone=this.phone.replace(/\D/g,'');
-        },
-    
-}
+    validatePassword() {
+      this.has_minimum_lenth = this.password.length > 8;
+      this.has_number = /\d/.test(this.password);
+      this.has_lowercase = /[a-z]/.test(this.password);
+      this.has_uppercase = /[A-Z]/.test(this.password);
+      this.has_special = /[!@#\$%\^\&*\)\(+=._-]/.test(this.password);
+      if (this.has_minimum_lenth) {
+        this.rule_1 = true;
+      }
+      if (this.has_lowercase) {
+        this.rule_2 = true;
+      }
+      if (this.has_uppercase) {
+        this.rule_3 = true;
+      }
+      if (this.has_number) {
+        this.rule_4 = true;
+      }
+      if (this.has_special) {
+        this.rule_5 = true;
+      }
+      if (
+        this.has_minimum_lenth == true &&
+        this.has_number == true &&
+        this.has_lowercase == true &&
+        this.has_uppercase == true &&
+        this.has_special == true
+      ) {
+        document
+          .getElementById("password")
+          .setAttribute("style", "border-color: rgb(76, 207, 76)");
+        document
+          .getElementById("signup_container")
+          .setAttribute("style", "height:600px");
+        this.show_password_rules = false;
+      } else {
+        document
+          .getElementById("password")
+          .setAttribute("style", "border-color: rgb(232, 93, 93)");
+      }
+    },
+    condition() {
+      this.show_password_rules = true;
+      document
+        .getElementById("signup_container")
+        .setAttribute("style", "height:650px");
+    },
+    handelphone() {
+      this.phone = this.phone.replace(/\D/g, "");
+    },
+  },
 };
 </script>
 <style>
@@ -379,7 +396,6 @@ li {
   color: #a7a7a7;
   margin-left: 20px;
   font-family: "Roboto", sans-serif;
-  /* visibility: hidden; */
 }
 .email-group {
   display: flex;
@@ -389,7 +405,6 @@ li {
   color: #a7a7a7;
   margin-left: 20px;
   font-family: "Roboto", sans-serif;
-  /* visibility: hidden; */
 }
 .phone-group {
   display: flex;
@@ -399,7 +414,6 @@ li {
   color: #a7a7a7;
   margin-left: 20px;
   font-family: "Roboto", sans-serif;
-  /* visibility: hidden; */
 }
 .fa-check {
   color: #61b143;
